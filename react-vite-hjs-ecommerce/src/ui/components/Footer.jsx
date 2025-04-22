@@ -1,4 +1,6 @@
 import React from 'react'
+import paymentImg from '@/assets/fruits/img/payment.png'
+
 
 const Footer = () => {
   return (
@@ -133,7 +135,7 @@ const Footer = () => {
                 <p>Email: Example@gmail.com</p>
                 <p>Phone: +0123 4567 8910</p>
                 <p>Payment Accepted</p>
-                <img src="img/payment.png" className="img-fluid" alt="" />
+                <img src={paymentImg} className="img-fluid" alt="" />
               </div>
             </div>
           </div>

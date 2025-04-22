@@ -1,4 +1,5 @@
 import Products from '@/ui/components/fruits/Products';
+import Hero from '@/ui/components/Hero';
 import MainLayout from '@/ui/layouts/MainLayout'
 import { createBrowserRouter } from 'react-router-dom'
 
@@ -11,8 +12,8 @@ const routes = [
     loader: () => '메인 레이아웃',
     children: [
       {
-        path: '',
-        element: <Products />,
+        path: '', // 기본 경로: / => Products
+        element: <div><Hero/><Products /></div>,
         loader: () => '상품들',
       },
     ],

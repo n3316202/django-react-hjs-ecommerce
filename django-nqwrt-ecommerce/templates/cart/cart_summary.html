@@ -1,0 +1,163 @@
+<!--dev_18-->
+{% extends "layout/base.html" %}
+{% load humanize %}
+{% block head %}
+  {% include "layout/head.html" %}
+{% endblock head %}
+{% block navi %}
+  {% include "layout/navbar.html" %}
+{% endblock navi %}
+{% block header %}
+  <div class="d-flex flex-column vh-100 justify-content-between">
+    <!-- Header -->
+    <header class="bg-dark py-5">
+      <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+          <h1 class="display-4 fw-bolder">장바구니</h1>
+          <p class="lead fw-normal text-white-50 mb-0">장바구니 Summary</p>
+        </div>
+      </div>
+    </header>
+  {% endblock header %}
+  <!--템플릿 적용-->
+  {% block content %}
+    <br />
+    <div class="container">
+      {% if cart %}
+        {% for item in cart %}
+          <div class="card mb-3">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src=" {{ item.product.image.url }}"
+                     style="width:100%;
+                            height:25rem;
+                            object-fit:fill"
+                     class="img-fluid rounded-start"
+                     alt="..." />
+              </div>
+              <div class="col-md-8">
+                <div class="card-body mt-4">
+                  <center>
+                    <h5 class="card-title">{{ item.product.name }}</h5>
+                    <p class="card-text">{{ item.product.description }}</p>
+                    <!--dev_21-->
+                    {% if item.product.is_sale %}
+                      <div class="d-flex justify-content-center small text-warning mb-2">
+                        <div class="bi-star-fill"></div>
+                        <div class="bi-star-fill"></div>
+                        <div class="bi-star-fill"></div>
+                        <div class="bi-star-fill"></div>
+                        <div class="bi-star-fill"></div>
+                      </div>
+                      <!-- Product price-->
+                      <strike>
+                        <del>${{ item.product.price }}</del>
+                      </strike>
+                      <br />
+                      ID :&nbsp;{{ item.product.id }}
+                      <br />
+                      &nbsp;${{ item.product.sale_price }}
+                    {% else %}
+                      ${{ item.product.price }}
+                      <br />
+                      ID :
+                      {{ item.product.id }}
+                    {% endif %}
+                    <br />
+                    <br />
+                    <div class="row justify-content-center">
+                      <div class="col-md-2">Quantity</div>
+                      <!--dev_20-->
+                      <input id="input-{{ item.product.id }}"
+                             type="text"
+                             value="{{ item.quantity }}"
+                             class="col-md-2">
+                    </div>
+                    <br />
+                    <a href="{% url 'store:home' %}" class="btn btn-secondary">홈으로</a>
+                    {% comment %} <button type="button" value="{{product.id}}" id="add-cart" class="btn btn-secondary">Add to Cart</button> {% endcomment %}
+                    <button type="button"
+                            data-index="{{ item.product.id }}"
+                            class="btn btn-secondary update-cart">업데이트</button>
+                    <button type="button"
+                            data-index="{{ item.product.id }}"
+                            class="btn btn-danger delete-product">삭제</button>
+                  </center>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        <!--dev_21-->
+        <div class="text-center">
+          <h3 class="text-center">Total:{{ totals|floatformat:"0"|default_if_none:"0"|intcomma }}원</h3>
+          <!--dev_25-->
+          <a href="{% url 'orders:orders_create' %}">
+            <button type="button" class="btn btn-success text-center">주문</button>
+          </a>
+          <!--dev_24-->
+          {% comment %} <form method="post" action="{% url 'orders:orders_create' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success text-center create-orders">주문</button>
+          </form> {% endcomment %}
+        </div>
+        <br />
+        <br />
+        <br />
+      {% else %}
+        There's Nothing in your cart
+      {% endif %}
+    </div>
+  {% endblock content %}
+  {% block footer %}
+    {% include "layout/footer.html" %}
+  </div>
+{% endblock footer %}
+{% block script %}
+  <script>
+    //dev_20
+    $(document).on('click', '.update-cart', function (e) {
+      let productid = $(this).data('index');
+      let qty = $("#input-"+ productid).val();
+
+      $.ajax({
+        type: 'post',
+        url: '{% url "cart:cart_update" %}',
+        data: {
+          product_id: $(this).data('index'),
+          product_qty: qty,
+          csrfmiddlewaretoken: '{{  csrf_token }}',
+          action: 'update'
+        },
+        success: function (json) {
+          console.log(json);
+          location.reload();
+        },
+        error: function (e) {
+          console.log(e);
+        }
+      });
+    });
+
+  $(document).on('click', '.delete-product', function (e) {
+    let productid = $(this).data('index');
+
+    $.ajax({
+      type: 'POST',
+      url: '{% url "cart:cart_delete" %}',
+      data: {
+        product_id: $(this).data('index'),
+        csrfmiddlewaretoken: '{{  csrf_token }}',
+        action: 'post',
+      },
+      success: function (json) {
+        console.log(json);
+        location.reload(); //페이지 새로 고침
+      },
+      error: function (e) {
+        console.log(e);
+      },
+    });
+  });
+  </script>
+{% endblock script %}

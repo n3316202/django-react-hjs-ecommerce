@@ -1,12 +1,11 @@
 import React from 'react'
-import { useCart } from '../../contexts/CartContext';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
 
-  const  { cartItems } = useCart();
-  console.log("로그")
-  console.log(cartItems)
+  // const  { cartItems } = useCart();
+  // console.log("로그")
+  // console.log(cartItems)
 
   return (
     <>

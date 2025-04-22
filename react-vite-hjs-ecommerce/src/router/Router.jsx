@@ -1,4 +1,5 @@
-import MainPage from '@/ui/pages/MainPage'
+import Products from '@/ui/components/fruits/Products';
+import MainLayout from '@/ui/layouts/MainLayout'
 import { createBrowserRouter } from 'react-router-dom'
 
 
@@ -6,10 +7,17 @@ import { createBrowserRouter } from 'react-router-dom'
 const routes = [
   {
     path: '/',
-    element: <MainPage />,
-    loader: () => '메인페이지',
+    element: <MainLayout />,
+    loader: () => '메인 레이아웃',
+    children: [
+      {
+        path: '',
+        element: <Products />,
+        loader: () => '상품들',
+      },
+    ],
   },
-]
+];
 
 const router = createBrowserRouter(routes)
 

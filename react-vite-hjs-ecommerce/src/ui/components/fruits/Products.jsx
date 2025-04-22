@@ -29,6 +29,17 @@ const Products = () => {
           </div>
           <div className="col-lg-8 text-end">
             <ul className="nav nav-pills d-inline-flex text-center mb-5">
+            <li className="nav-item">
+                <a
+                  className="d-flex m-2 py-2 bg-light rounded-pill active"
+                  data-bs-toggle="pill"
+                  href="#tab-1"
+                >
+                  <span className="text-dark" style={{ width: 130 }}>
+                    {"전체"}
+                  </span>
+                </a>
+              </li>
             {categories.map((category, index) => (
               <li className="nav-item">
                 <a

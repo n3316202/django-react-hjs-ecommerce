@@ -193,7 +193,7 @@ class CategoryAPI(RetrieveUpdateDestroyAPIView):
 # 삭제 제어	           perform_destroy()
 # 커스텀 URL 추가	    @action(detail=True)
 
-
+#dev_3_Fruit 주석처리
 class CategoryViewSet(ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
@@ -201,25 +201,25 @@ class CategoryViewSet(ModelViewSet):
     # http://127.0.0.1:8000/api/categories/1/products/ 라는 URL로 호출
     # detail=True	/api/resource/<pk>/custom/	특정 객체에 대해 작동 (PK 필요)
     # detail=False	/api/resource/custom/	전체 또는 리스트 대상 (PK 불필요)
-    @action(detail=True, methods=["get"])
-    def products(self, request, pk=None):
-        category = self.get_object()
-        products = category.products.all()
-        data = [{"name": p.name, "price": p.price} for p in products]
-        return Response({"category": category.name, "products": data})
+    # @action(detail=True, methods=["get"])
+    # def products(self, request, pk=None):
+    #     category = self.get_object()
+    #     products = category.products.all()
+    #     data = [{"name": p.name, "price": p.price} for p in products]
+    #     return Response({"category": category.name, "products": data})
 
-    # 🎯 특정 동작을 아예 오버라이드
-    def create(self, request, *args, **kwargs):
-        response = super().create(request, *args, **kwargs)
-        response.data = {
-            "message": "카테고리가 성공적으로 생성되었습니다.",
-            "data": response.data,
-        }
-        return response
+    # # 🎯 특정 동작을 아예 오버라이드
+    # def create(self, request, *args, **kwargs):
+    #     response = super().create(request, *args, **kwargs)
+    #     response.data = {
+    #         "message": "카테고리가 성공적으로 생성되었습니다.",
+    #         "data": response.data,
+    #     }
+    #     return response
 
-    # 1. get_queryset() 커스터마이징 (권한별 필터링)
-    def get_queryset(self):
-        user = self.request.user
-        if user.is_staff:
-            return Category.objects.filter(id=1)
-        return Category.objects.all()
+    # # 1. get_queryset() 커스터마이징 (권한별 필터링)
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     if user.is_staff:
+    #         return Category.objects.filter(id=1)
+    #     return Category.objects.all()

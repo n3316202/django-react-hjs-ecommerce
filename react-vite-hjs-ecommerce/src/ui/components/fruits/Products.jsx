@@ -1,5 +1,5 @@
 import { getCategories } from '@/api/CategoryApi';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const Products = () => {
 
@@ -29,6 +29,7 @@ const Products = () => {
           </div>
           <div className="col-lg-8 text-end">
             <ul className="nav nav-pills d-inline-flex text-center mb-5">
+            {categories.map((category, index) => (
               <li className="nav-item">
                 <a
                   className="d-flex m-2 py-2 bg-light rounded-pill active"
@@ -36,10 +37,11 @@ const Products = () => {
                   href="#tab-1"
                 >
                   <span className="text-dark" style={{ width: 130 }}>
-                    All Products
+                    {category.name}
                   </span>
                 </a>
               </li>
+              ))}
             </ul>
           </div>
         </div>

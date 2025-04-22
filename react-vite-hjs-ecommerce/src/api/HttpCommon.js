@@ -7,3 +7,5 @@ const http = axios.create({
     'Content-type': 'application/json',
   },
 });
+
+export default http;

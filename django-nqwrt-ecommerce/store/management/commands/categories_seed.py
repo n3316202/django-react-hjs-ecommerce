@@ -6,7 +6,7 @@ class Command(BaseCommand):
     help = "Seed initial categories into the database"
 
     def handle(self, *args, **options):
-        categories = ["전자제품", "패션", "도서", "가구", "장난감", "스포츠", "식품"]
+        categories = ["전자제품", "패션", "도서", "가구", "장난감", "스포츠", "과일"]
 
         for name in categories:
             obj, created = Category.objects.get_or_create(name=name)

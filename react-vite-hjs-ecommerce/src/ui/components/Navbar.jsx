@@ -1,11 +1,17 @@
+import { useAuth } from '@/contexts/AuthContext';
 import React from 'react'
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
 
-  // const  { cartItems } = useCart();
-  // console.log("로그")
-  // console.log(cartItems)
+  //dev_5_Fruit
+  const {user,logout} = useAuth();
+  console.log("유저")
+  console.log(user)
+
+  const logoutHandle = () => {
+    logout()
+  };
 
   return (
     <>
@@ -30,9 +36,17 @@ const Navbar = () => {
               </small>
               <small className="me-3">
                 <i className="fas fa-envelope me-2 text-secondary" />
-                <a href="#" className="text-white">
-                  Email@Example.com
-                </a>
+                {user ? (
+                  <span
+                    className="text-white"
+                    style={{ cursor: "pointer" }}
+                    onClick={logoutHandle}
+                  >
+                    {user.username}님 환영합니다.
+                  </span>
+                ) : (
+                  <Link to="/login" className="text-white">로그인을 해주세요</Link>
+                )}
               </small>
             </div>
             <div className="top-link pe-2">

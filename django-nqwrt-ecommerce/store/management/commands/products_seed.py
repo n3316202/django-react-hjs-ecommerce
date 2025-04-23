@@ -16,7 +16,7 @@ class Command(BaseCommand):
     help = "Download product images and seed the database with products."
 
     category_items = {
-        "전자제품": ["무선 이어폰", "스마트폰", "마우스"],
+        "전자제품": ["냉장고", "컴퓨터", "핸드폰"],
         "패션": ["남성 정장", "여성 정장", "청바지"],
         "도서": ["파이썬 입문서", "역사책", "SF 소설"],
         "가구": ["원목 식탁", "컴퓨터 책상", "서랍장"],

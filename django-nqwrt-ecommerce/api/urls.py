@@ -45,7 +45,7 @@ urlpatterns = [
     # djoser의 JWT 로그인 뷰를 오버라이드해서
     # 인증 설정에서 JWT 
     path("auth/", include("djoser.urls")),  # 회원가입, 비밀번호 변경 등
-    path("auth/jwt/", include("djoser.urls.jwt")), # JWT 로그인/로그아웃, 토큰 갱신 등
+    path("auth/", include("djoser.urls.jwt")), # JWT 로그인/로그아웃, 토큰 갱신 등
 ]
 # dev_5_Fruit
 # 2. 생성되는 URL

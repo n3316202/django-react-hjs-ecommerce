@@ -16,6 +16,9 @@ app_name = "api"
 router = routers.DefaultRouter()
 router.register(r"categories", category_views.CategoryViewSet)
 
+#dev_6_Fruit
+from api.views.cart_views import CartAPIView
+
 # dev_30
 urlpatterns = [
     # base_views.py
@@ -46,6 +49,8 @@ urlpatterns = [
     # 인증 설정에서 JWT 
     path("auth/", include("djoser.urls")),  # 회원가입, 비밀번호 변경 등
     path("auth/", include("djoser.urls.jwt")), # JWT 로그인/로그아웃, 토큰 갱신 등
+    #dev_6_Fruit
+    path("cart/", CartAPIView.as_view(), name="api_cart"),
 ]
 # dev_5_Fruit
 # 2. 생성되는 URL

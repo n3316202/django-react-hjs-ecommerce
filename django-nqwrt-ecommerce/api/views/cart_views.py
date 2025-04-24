@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from store.models import Product
 from cart.cart import Cart, CartDRF
-from api.serializers import ProductSerializer
+from api.serializers.product_serializers import ProductSerializer
 from rest_framework.permissions import IsAuthenticated
 
 # ✅ 결과적으로 API endpoint 예시:

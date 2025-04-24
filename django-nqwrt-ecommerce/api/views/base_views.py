@@ -5,7 +5,6 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from store.models import Product
-from api.serializers import ProductSerializer
 
 # Create your views here.
 

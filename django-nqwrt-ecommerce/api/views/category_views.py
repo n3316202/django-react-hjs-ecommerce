@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from api.serializers import CategorySerializer
+from api.serializers.category_serializers import CategorySerializer
 from store.models import Category
 from rest_framework import status
 from rest_framework.views import APIView

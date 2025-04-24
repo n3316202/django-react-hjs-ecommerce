@@ -120,3 +120,34 @@ class CartAPIView(APIView):
             user.save()
             return Response({"message": "장바구니가 비워졌습니다."})
 
+#dev_6_Fruit
+# POST	   /api/cart/merge	  장바구니에    상품 추가
+class CartMergeAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        """
+        localStorage의 장바구니를 서버 old_cart에 병합
+        """
+        user = request.user
+        
+        local_cart = request.data.get("cart", "{}")
+
+        local_cart = json.loads(local_cart or "{}")
+        old_cart = json.loads(user.old_cart or "{}")
+                
+        print("old_cart:::::::::" , old_cart)
+        print("local_cart:::::::::", local_cart)
+        print(user)
+
+        # 병합: 같은 상품이 있다면 수량 증가
+        for product_id, item in local_cart.items():
+            quantity = int(item.get("quantity", 0))
+            if product_id in old_cart:
+                old_cart[product_id]["quantity"] += quantity
+            else:
+                old_cart[product_id] = {"quantity": quantity}
+
+        user.old_cart = json.dumps(old_cart)
+        user.save()
+
+        return Response({"message": "장바구니가 병합되었습니다."})

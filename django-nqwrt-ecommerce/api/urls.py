@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 # dev_30
-from .views import base_views, product_views, category_views
+from .views import base_views, product_views, category_views ,cart_views
 
 # dev_34
 from rest_framework import routers
@@ -15,9 +15,6 @@ app_name = "api"
 # dev_35
 router = routers.DefaultRouter()
 router.register(r"categories", category_views.CategoryViewSet)
-
-#dev_6_Fruit
-from api.views.cart_views import CartAPIView
 
 # dev_30
 urlpatterns = [
@@ -50,7 +47,8 @@ urlpatterns = [
     path("auth/", include("djoser.urls")),  # 회원가입, 비밀번호 변경 등
     path("auth/", include("djoser.urls.jwt")), # JWT 로그인/로그아웃, 토큰 갱신 등
     #dev_6_Fruit
-    path("cart/", CartAPIView.as_view(), name="api_cart"),
+    path("cart/", cart_views.CartAPIView.as_view(), name="api_cart"),
+    path("cart/merge/", cart_views.CartMergeAPIView.as_view()),  # 👈 이렇게!
 ]
 # dev_5_Fruit
 # 2. 생성되는 URL

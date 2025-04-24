@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { addCart, deleteCart, getCarts } from "../api/CartApi";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { addCart, deleteCart, getCarts, mergeCart } from "../api/CartApi";
 import { useAuth } from "./AuthContext";
 
 //dev_6_Fruit
@@ -11,84 +11,132 @@ import { useAuth } from "./AuthContext";
 // GET	/api/cart/	장바구니 불러오기
 // POST	/api/cart/	장바구니에 상품 추가
 // DELETE	/api/cart/:id/	장바구니 항목 제거
+
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState({});
   const { user } = useAuth();
+  const [totalItems, setTotalItems] = useState(0);
+  const [totalPrice, setTotalPrice] = useState("0");
 
-  // ⭐ 로그인 유저: 서버 장바구니 불러오기 or 병합
+  // 비회원 -> localStorage 에서 가져오기
   useEffect(() => {
-    const fetchCart = async () => {
-      const guestCart = JSON.parse(localStorage.getItem("cart") || "[]");
+    if (!user) {
+      const savedCart = localStorage.getItem("cart");
+      if (savedCart) {
+        setCartItems(JSON.parse(savedCart));
+      }
+    }
+  }, [user]);
 
-      try {
-        if (user) {   
-          if (guestCart.length > 0) {
-            await axios.post("/cart/merge/", guestCart);
+  // 로그인 시 병합
+  useEffect(() => {
+
+    const fetchCart = async () => {
+      if (user) {
+        const guestCart = JSON.parse(localStorage.getItem("cart") || "{}");
+
+        try {
+          if (Object.keys(guestCart).length > 0) {
+            await mergeCart(localStorage.getItem("cart"))
             localStorage.removeItem("cart");
           }
-          const res = await axios.get("/cart/");
-          setCartItems(res.data);
-        } else {
-          // 비회원일 경우 localStorage
-          setCartItems(guestCart);
+
+          const response = await getCarts();
+          console.log("음메")
+          console.log(response)
+
+          const {cart_total_items, cart_total_price } = response.data;
+          setTotalItems(cart_total_items);
+          setTotalPrice(cart_total_price);
+  
+          // 서버 응답: 배열일 경우 변환
+          const cartData = {};
+          response.data.cart.forEach((item) => {
+            cartData[item.product.id] = {
+              quantity: item.quantity,
+              price: item.price,
+            };
+          });
+
+          setCartItems(cartData);
+         
+        } catch (err) {
+          console.error("장바구니 병합/불러오기 실패", err);
         }
-      } catch (err) {
-        console.error("장바구니 불러오기 실패", err);
       }
     };
 
     fetchCart();
   }, [user]);
 
-  // 🧠 localStorage 저장 (비회원일 때만)
+  // 비회원일 때 localStorage 저장
   useEffect(() => {
     if (!user) {
       localStorage.setItem("cart", JSON.stringify(cartItems));
     }
-    console.log(localStorage.getItem("cart"))
+    console.log("🛒 savedCart:", localStorage.getItem("cart"));
   }, [cartItems, user]);
 
-  // 🛒 장바구니 담기
+  // ✅ 장바구니 추가
   const addToCart = async (product, quantity = 1) => {
+    const productId = product.id;
+    const price = product.price;
+
     if (user) {
       try {
         const res = await axios.post("/cart/add/", {
-          product_id: product.id,
+          product_id: productId,
           quantity,
         });
-        setCartItems(res.data); // 서버에서 최신 장바구니 응답
+        const updated = {};
+        res.data.forEach((item) => {
+          updated[item.product_id] = {
+            quantity: item.quantity,
+            price: item.price,
+          };
+        });
+        setCartItems(updated);
       } catch (err) {
-        console.error("장바구니 추가 실패", err);
+        console.error("서버 장바구니 추가 실패", err);
       }
     } else {
-      // ✅ old_cart 데이터 {"34": {"quantity": 1, "price": "10000.00"}, "33": {"quantity": 1, "price": "12000.00"}}
       setCartItems((prev) => {
-        const existing = prev.find((item) => item.id === product.id);
-        if (existing) {
-          return prev.map((item) =>
-            item.id === product.id
-              ? { ...item, quantity: item.quantity + quantity }
-              : item
-          );
-        }
-        return [...prev, { ...product, quantity }];
+        const existing = prev[productId];
+        return {
+          ...prev,
+          [productId]: {
+            price,
+            quantity: existing ? existing.quantity + quantity : quantity,
+          },
+        };
       });
     }
   };
 
-  // 🗑️ 장바구니 항목 제거
+  // ❌ 항목 제거
   const removeFromCart = async (productId) => {
     if (user) {
       try {
         const res = await axios.delete(`/cart/remove/${productId}/`);
-        setCartItems(res.data);
+        const updated = {};
+        res.data.forEach((item) => {
+          updated[item.product_id] = {
+            quantity: item.quantity,
+            price: item.price,
+          };
+        });
+        setCartItems(updated);
       } catch (err) {
-        console.error("장바구니 삭제 실패", err);
+        console.error("서버 장바구니 삭제 실패", err);
       }
     } else {
-      setCartItems((prev) => prev.filter((item) => item.id !== productId));
+      setCartItems((prev) => {
+        const updated = { ...prev };
+        delete updated[productId];
+        return updated;
+      });
     }
   };
 
@@ -100,30 +148,39 @@ export const CartProvider = ({ children }) => {
           product_id: productId,
           quantity,
         });
-        setCartItems(res.data);
+        const updated = {};
+        res.data.forEach((item) => {
+          updated[item.product_id] = {
+            quantity: item.quantity,
+            price: item.price,
+          };
+        });
+        setCartItems(updated);
       } catch (err) {
-        console.error("수량 변경 실패", err);
+        console.error("서버 수량 변경 실패", err);
       }
     } else {
-      setCartItems((prev) =>
-        prev.map((item) =>
-          item.id === productId ? { ...item, quantity } : item
-        )
-      );
+      setCartItems((prev) => ({
+        ...prev,
+        [productId]: {
+          ...prev[productId],
+          quantity,
+        },
+      }));
     }
   };
 
-  // 🚮 전체 비우기
+  // 🧹 전체 비우기
   const clearCart = async () => {
     if (user) {
       try {
         await axios.delete("/cart/clear/");
-        setCartItems([]);
+        setCartItems({});
       } catch (err) {
-        console.error("장바구니 비우기 실패", err);
+        console.error("서버 장바구니 비우기 실패", err);
       }
     } else {
-      setCartItems([]);
+      setCartItems({});
       localStorage.removeItem("cart");
     }
   };
@@ -144,3 +201,5 @@ export const CartProvider = ({ children }) => {
 };
 
 export const useCart = () => useContext(CartContext);
+
+//https://chatgpt.com/c/680873bf-67fc-8007-b7d1-08ebcbb344d4

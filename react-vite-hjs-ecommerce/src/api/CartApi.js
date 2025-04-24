@@ -36,6 +36,9 @@ export const deleteCart = (product_id = null) => {
 
 // 병합하기
 export const mergeCart = (guestCart) => {
-  return http.post("/api/cart/merge", guestCart);
+  console.log(guestCart)
+  return http.post("/api/cart/merge/", {
+    cart: guestCart, // 👈 바로 보내기
+  });
 };
 

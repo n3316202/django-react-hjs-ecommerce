@@ -22,6 +22,7 @@ const Login = () => {
     }
   };
 
+//dev_10_Fruit
 useEffect(() => {
     // Kakao SDK 초기화
     if (window.Kakao && !window.Kakao.isInitialized()) {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useCart } from '../../../contexts/CartContext';
 import { formatCurrency } from '../../../utils/format';
 import { getCarts } from '@/api/CartApi';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 //dev_7_Fruit
 // {
@@ -150,7 +150,7 @@ const Cart = () => {
                 <h5 className="mb-0 ps-4 me-4">Total</h5>
                 <p className="mb-0 pe-4">{userCart && formatCurrency(userCart.cart_total_price)}</p>
               </div>
-              <button className="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Proceed Checkout</button>
+              <Link to='/checkout' className="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Proceed Checkout(결제 페이지 이동)</Link>
             </div>
           </div>
         </div>

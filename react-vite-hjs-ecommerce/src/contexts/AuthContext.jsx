@@ -54,6 +54,7 @@ export const AuthProvider = ({ children }) => {
     accessToken,
     login,
     logout,
+    getUser,//dev_11_Fruit
     isAuthenticated: !!user,
   };
 

@@ -7,7 +7,7 @@ import axios from 'axios';
 //dev_5_Fruit
 const Login = () => {
 
-  const { login } = useAuth();
+  const { login , getUser} = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -53,10 +53,10 @@ const handleKakaoLogin = () => {
         localStorage.setItem('access_token', response.data.access)
         localStorage.setItem('refresh_token', response.data.refresh)
 
-        // 리다이렉트 등
-        //const response2 = await getCurrentUser()
-        //print('리스판스2')
-        //print(response2)
+        //토큰생성후 여러가지 로직을 구현 할수 있음
+        //dev_11_Fruit
+        getUser()
+
         navigate('/') // ← 로그인 성공 후 홈으로 리다이렉트
       } catch (error) {
         console.error('카카오 로그인 실패:', error.response?.data || error)

@@ -185,11 +185,17 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+//dev_6
+// const clearCart = async () => {
+//   await deleteCart()
+//   setCartItems([])
+// }
+
   // 🧹 전체 비우기
   const clearCart = async () => {
     if (user) {
       try {
-        await axios.delete("/cart/clear/");
+        await deleteCart()
         setCartItems({});
       } catch (err) {
         console.error("서버 장바구니 비우기 실패", err);

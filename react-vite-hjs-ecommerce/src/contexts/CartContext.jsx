@@ -185,13 +185,10 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-//dev_6
-// const clearCart = async () => {
-//   await deleteCart()
-//   setCartItems([])
-// }
+
 
   // 🧹 전체 비우기
+  //dev_9_Fruit
   const clearCart = async () => {
     if (user) {
       try {

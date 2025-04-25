@@ -30,13 +30,50 @@ useEffect(() => {
     }
 }, [])
 
+const handleKakaoLogin = () => {
+  if (!window.Kakao) {
+    console.log('카카오 모듈 없음 ....')
+    return
+  }
+
+  window.Kakao.Auth.login({
+    scope: 'profile_nickname, account_email, gender', // 원하는 scope
+    success: async function (authObj) {
+      const kakaoAccessToken = authObj.access_token
+      console.log('Kakao Access Token:', kakaoAccessToken)
+
+      try {
+        const response = await axios.post(`${import.meta.env.VITE_REQUEST_URL}/api/dj-rest-auth/kakao/`, {
+          access_token: kakaoAccessToken,
+        })
+
+        console.log('로그인 성공:', response.data)
+        // JWT 저장 및 로그인 상태 업데이트 등
+        localStorage.setItem('access_token', response.data.access)
+        localStorage.setItem('refresh_token', response.data.refresh)
+
+        // 리다이렉트 등
+        //const response2 = await getCurrentUser()
+        //print('리스판스2')
+        //print(response2)
+        navigate('/') // ← 로그인 성공 후 홈으로 리다이렉트
+      } catch (error) {
+        console.error('카카오 로그인 실패:', error.response?.data || error)
+      }
+    },
+    fail: function (err) {
+      console.error('Kakao 로그인 에러', err)
+    },
+  })
+}
   return (
     <div className="form-bg">
         <div className="container">
             <div className="row justify-content-center">
                 <div className="col-md-4 col-md-offset-4">
                     <div className="form-container">
-                    <div className="form-icon">
+                    {/* dev_10_Fruit */}
+                    <div className="form-icon" onClick={handleKakaoLogin}>
                         <i className="fa fa-user" />
                     </div>
                     <h3 className="title">Login</h3>

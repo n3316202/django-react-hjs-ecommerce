@@ -88,6 +88,15 @@ CORS_ALLOWED_ORIGINS = [
 ]
 CORS_ORIGIN_ALLOW_ALL = True  # 어떠한 출처든 상관없이 정보를 공유
 
+# dev_11_Fruit
+CORS_ALLOW_CREDENTIALS = True
+# 쿠키 관련
+SESSION_COOKIE_SECURE = False  # 로컬에서는 반드시 False (HTTPS에서만 전송 X)
+CSRF_COOKIE_SECURE = False  # 로컬에서는 False
+SESSION_COOKIE_SAMESITE = "Lax"  # 또는 "None" (같은 도메인만 허용 시 Lax)
+CSRF_COOKIE_SAMESITE = "Lax"
+
+
 ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
@@ -214,21 +223,12 @@ CART_SESSION_ID = "cart"
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.SessionAuthentication",  # dev_11_Fruit 추가
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
 }
 
-#    'AUTH_HEADER_TYPES': ('JWT',),
-#    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
-#    'REFRESH_TOKEN_LIFETIME': timedelta(days=2),
-from datetime import timedelta
 
-#Bearer"로 설정되어 있어서 Authorization: Bearer <token> 형태로 사용함.
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=3),#timedelta(minutes=30),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
-    "AUTH_HEADER_TYPES": ("Bearer",),
-}
 # http://127.0.0.1:8000/api/auth/users/me/
 DJOSER = {
     "USER_ID_FIELD": "id",
@@ -247,6 +247,7 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",  # 기본 인증
     "allauth.account.auth_backends.AuthenticationBackend",  # allauth
 ]
+
 # dj-rest-auth + JWT 설정
 # 2.2.5버전
 
@@ -259,16 +260,14 @@ REST_AUTH = {
 }
 
 
-# http://127.0.0.1:8000/api/auth/users/me/
-DJOSER = {
-    "USER_ID_FIELD": "id",
-    "LOGIN_FIELD": "username",  # 또는 email
-    "SERIALIZERS": {
-        "user_create": "accounts.serializers.UserCreateSerializer",
-        "user": "accounts.serializers.UserSerializer",
-        "current_user": "accounts.serializers.UserSerializer",
-    },
-    "CREATE_SESSION_ON_LOGIN": True,  # 로그인하면 세션도 생성됨
+from datetime import timedelta
+
+#Bearer"로 설정되어 있어서 Authorization: Bearer <token> 형태로 사용함.
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=3),#timedelta(minutes=30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "AUTH_HEADER_TYPES": ("Bearer",),
+    "BLACKLIST_AFTER_ROTATION": True,
 }
 # 카카오 소셜 로그인 때문은 아니고, 기본 로그인 방식(이메일 or 사용자명 등)에만 적용되는 설정
 #'username' → 사용자명이 필요

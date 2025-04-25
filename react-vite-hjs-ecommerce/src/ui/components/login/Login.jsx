@@ -22,6 +22,13 @@ const Login = () => {
     }
   };
 
+useEffect(() => {
+    // Kakao SDK 초기화
+    if (window.Kakao && !window.Kakao.isInitialized()) {
+      window.Kakao.init(import.meta.env.VITE_KAKAO_JAVASCRIPT_KEY) //import.meta.env.VITE_REQUEST_URL
+    }
+}, [])
+
   return (
     <div className="form-bg">
         <div className="container">

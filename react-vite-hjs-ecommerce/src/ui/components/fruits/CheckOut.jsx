@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useCart } from '../../../contexts/CartContext'
 import { formatCurrency } from '../../../utils/format'
-import RequestPay from './RequestPay' //dev_9_Fruit
 import { useNavigate } from 'react-router-dom'
+import RequestPay from '../payment/RequestPay'
 
 //dev_8_Fruit
 const CheckOut = () => {
@@ -34,7 +34,7 @@ const handleChange = (e) => {
     setShippingData((prev) => ({ ...prev, [name]: value }))
   }
 
-const {  clearCart,userCart } = useCart()
+const { clearCart,userCart } = useCart()
 console.log('userCart 👉', userCart)
 console.log(userCart)
 
@@ -43,7 +43,7 @@ const navigate = useNavigate()
 //dev_9_Fruit
 const handlePayment = async () => {
     try {
-      const result = await RequestPay(shippingData, cartItems)
+      const result = await RequestPay(shippingData, userCart)
 
       if (result) {
         console.log('===============')

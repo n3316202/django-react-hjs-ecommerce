@@ -223,8 +223,9 @@ REST_FRAMEWORK = {
 #    'REFRESH_TOKEN_LIFETIME': timedelta(days=2),
 from datetime import timedelta
 
+#Bearer"로 설정되어 있어서 Authorization: Bearer <token> 형태로 사용함.
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=3),#timedelta(minutes=30),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
@@ -257,16 +258,18 @@ REST_AUTH = {
     "JWT_AUTH_HTTPONLY": False,
 }
 
-# JWT 옵션 (SIMPLE_JWT) 추가:
-from datetime import timedelta
 
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=3),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
-    "ROTATE_REFRESH_TOKENS": False,
-    "BLACKLIST_AFTER_ROTATION": True,
+# http://127.0.0.1:8000/api/auth/users/me/
+DJOSER = {
+    "USER_ID_FIELD": "id",
+    "LOGIN_FIELD": "username",  # 또는 email
+    "SERIALIZERS": {
+        "user_create": "accounts.serializers.UserCreateSerializer",
+        "user": "accounts.serializers.UserSerializer",
+        "current_user": "accounts.serializers.UserSerializer",
+    },
+    "CREATE_SESSION_ON_LOGIN": True,  # 로그인하면 세션도 생성됨
 }
-
 # 카카오 소셜 로그인 때문은 아니고, 기본 로그인 방식(이메일 or 사용자명 등)에만 적용되는 설정
 #'username' → 사용자명이 필요
 #'email' → 이메일만으로 로그인 (아이디 없이)
@@ -277,10 +280,10 @@ SIMPLE_JWT = {
 # ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
 
 # 로그인 방식: 이메일로 로그인
-ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_USERNAME_REQUIRED = False  # username 필요 없음
 ACCOUNT_EMAIL_REQUIRED = True  # 이메일 필수
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None  # username을 필드로 안 씀
+ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"  # username을 필드로 씀
 
 # 이메일 인증 건너뛰기 (선택)
 ACCOUNT_EMAIL_VERIFICATION = "none"  # 개발 중에는 'none' 추천

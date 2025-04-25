@@ -27,6 +27,10 @@ export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState({});
   const { user } = useAuth();
 
+  //dev_7_Fruit
+  const [userCart, setUserCart] = useState(null);
+  
+
 
   // 비회원 -> localStorage 에서 가져오기
   useEffect(() => {
@@ -89,6 +93,11 @@ export const CartProvider = ({ children }) => {
 
       setCartItems(cartData);
 
+      //dev_7_Fruit
+      if(user){
+        setUserCart(response.data)
+      }
+
     } catch (error) {
       console.error("❌ 장바구니 불러오기 실패", error);
     }
@@ -127,18 +136,13 @@ export const CartProvider = ({ children }) => {
   };
 
   // ❌ 항목 제거
+  //dev_7_Fruit
   const removeFromCart = async (productId) => {
     if (user) {
       try {
-        const res = await axios.delete(`/cart/remove/${productId}/`);
-        const updated = {};
-        res.data.forEach((item) => {
-          updated[item.product_id] = {
-            quantity: item.quantity,
-            price: item.price,
-          };
-        });
-        setCartItems(updated);
+        await deleteCart(productId);  // API 호출 (product_id를 body로 넘김)
+        await loadCart();             // 장바구니 다시 불러오기
+        console.log("✅ 상품이 장바구니에서 제거되었습니다.");
       } catch (err) {
         console.error("서버 장바구니 삭제 실패", err);
       }
@@ -203,6 +207,7 @@ export const CartProvider = ({ children }) => {
   return (
     <CartContext.Provider
       value={{
+        userCart,
         cartItems,
         addToCart,
         getTotalItems, // ✅ 여기!

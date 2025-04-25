@@ -24,7 +24,6 @@ router.register(r"categories", category_views.CategoryViewSet)
 # DELETE /api/payments/<id>/ – 삭제
 from api.views.payment_views import PaymentViewSet
 
-router = routers.DefaultRouter()
 router.register(r"payments", PaymentViewSet)
 
 # dev_30

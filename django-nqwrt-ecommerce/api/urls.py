@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 # dev_30
-from .views import base_views, product_views, category_views ,cart_views
+from .views import base_views, product_views, category_views ,cart_views,social_views
 
 # dev_34
 from rest_framework import routers
@@ -62,7 +62,7 @@ urlpatterns = [
     # dev_10_Fruit
     path("dj-rest-auth/", include("dj_rest_auth.urls")),
     path("dj-rest-auth/registration/", include("dj_rest_auth.registration.urls")),
-    path("dj-rest-auth/kakao/", KakaoLoginView.as_view(), name="kakao_login"),
+    path("dj-rest-auth/kakao/", social_views.KakaoLoginView.as_view(), name="kakao_login"),
 ]
 # dev_5_Fruit
 # 2. 생성되는 URL

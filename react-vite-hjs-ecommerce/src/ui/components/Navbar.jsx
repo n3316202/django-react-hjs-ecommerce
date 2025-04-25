@@ -1,4 +1,5 @@
 import { useAuth } from '@/contexts/AuthContext';
+import { useCart } from '@/contexts/CartContext';
 import React from 'react'
 import { Link } from 'react-router-dom';
 
@@ -12,6 +13,9 @@ const Navbar = () => {
   const logoutHandle = () => {
     logout()
   };
+
+  //dev_6_Fruit 장바구니 카트 숫자
+  const  {  totalItems, totalPrice,getTotalItems } = useCart();
 
   return (
     <>
@@ -127,7 +131,7 @@ const Navbar = () => {
                     className="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
                     style={{ top: "-5px", left: 15, height: 20, minWidth: 20 }}
                   >
-                    {/* {getTotalQuantity} */}
+                    {getTotalItems() }
                   </span>
                 </a>
                 <a href="#" className="my-auto">

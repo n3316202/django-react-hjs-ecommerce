@@ -12,13 +12,21 @@ import { useAuth } from "./AuthContext";
 // POST	/api/cart/	장바구니에 상품 추가
 // DELETE	/api/cart/:id/	장바구니 항목 제거
 
+//비로그인을 위한 구성
+// {
+//   "cart": {
+//     "1": { "price": "12000", "quantity": 2 },
+//     "2": { "price": "4500", "quantity": 3 }
+//   },
+// }
+
+
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState({});
   const { user } = useAuth();
-  const [totalItems, setTotalItems] = useState(0);
-  const [totalPrice, setTotalPrice] = useState("0");
+
 
   // 비회원 -> localStorage 에서 가져오기
   useEffect(() => {
@@ -34,6 +42,7 @@ export const CartProvider = ({ children }) => {
   useEffect(() => {
 
     const fetchCart = async () => {
+
       if (user) {
         const guestCart = JSON.parse(localStorage.getItem("cart") || "{}");
 
@@ -43,24 +52,7 @@ export const CartProvider = ({ children }) => {
             localStorage.removeItem("cart");
           }
 
-          const response = await getCarts();
-          console.log("음메")
-          console.log(response)
-
-          const {cart_total_items, cart_total_price } = response.data;
-          setTotalItems(cart_total_items);
-          setTotalPrice(cart_total_price);
-  
-          // 서버 응답: 배열일 경우 변환
-          const cartData = {};
-          response.data.cart.forEach((item) => {
-            cartData[item.product.id] = {
-              quantity: item.quantity,
-              price: item.price,
-            };
-          });
-
-          setCartItems(cartData);
+          loadCart()
          
         } catch (err) {
           console.error("장바구니 병합/불러오기 실패", err);
@@ -79,30 +71,48 @@ export const CartProvider = ({ children }) => {
     console.log("🛒 savedCart:", localStorage.getItem("cart"));
   }, [cartItems, user]);
 
+  
+  // 장바구니 불러오기
+  const loadCart = async () => {
+    try {
+      const response = await getCarts();
+      console.log("음메")
+      console.log(response)
+      // 서버 응답: 배열일 경우 변환
+      const cartData = {};
+      response.data.cart.forEach((item) => {
+        cartData[item.product.id] = {
+          quantity: item.quantity,
+          price: item.price,
+        };
+      });
+
+      setCartItems(cartData);
+
+    } catch (error) {
+      console.error("❌ 장바구니 불러오기 실패", error);
+    }
+  };
+
+
   // ✅ 장바구니 추가
-  const addToCart = async (product, quantity = 1) => {
+  const addToCart = async (product, qty = 1) => {
     const productId = product.id;
     const price = product.price;
 
     if (user) {
       try {
-        const res = await axios.post("/cart/add/", {
-          product_id: productId,
-          quantity,
-        });
-        const updated = {};
-        res.data.forEach((item) => {
-          updated[item.product_id] = {
-            quantity: item.quantity,
-            price: item.price,
-          };
-        });
-        setCartItems(updated);
+        
+        const response = await addCart(product.id, qty);
+        console.log(response)
+
+        loadCart()
+        
       } catch (err) {
         console.error("서버 장바구니 추가 실패", err);
       }
     } else {
-      setCartItems((prev) => {
+        setCartItems((prev) => {
         const existing = prev[productId];
         return {
           ...prev,
@@ -111,6 +121,7 @@ export const CartProvider = ({ children }) => {
             quantity: existing ? existing.quantity + quantity : quantity,
           },
         };
+        
       });
     }
   };
@@ -185,11 +196,16 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  const getTotalItems = () => {
+    return Object.values(cartItems).reduce((acc, item) => acc + item.quantity, 0);
+  };
+
   return (
     <CartContext.Provider
       value={{
         cartItems,
         addToCart,
+        getTotalItems, // ✅ 여기!
         removeFromCart,
         updateQuantity,
         clearCart,

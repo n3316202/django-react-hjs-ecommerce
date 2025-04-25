@@ -59,6 +59,10 @@ urlpatterns = [
     #dev_6_Fruit
     path("cart/", cart_views.CartAPIView.as_view(), name="api_cart"),
     path("cart/merge/", cart_views.CartMergeAPIView.as_view()),  # 👈 이렇게!
+    # dev_10_Fruit
+    path("dj-rest-auth/", include("dj_rest_auth.urls")),
+    path("dj-rest-auth/registration/", include("dj_rest_auth.registration.urls")),
+    path("dj-rest-auth/kakao/", KakaoLoginView.as_view(), name="kakao_login"),
 ]
 # dev_5_Fruit
 # 2. 생성되는 URL

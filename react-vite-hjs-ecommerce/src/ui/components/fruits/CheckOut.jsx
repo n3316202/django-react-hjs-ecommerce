@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { useCart } from '../../../contexts/CartContext'
 import { formatCurrency } from '../../../utils/format'
-//import RequestPay from './RequestPay'
+import RequestPay from './RequestPay' //dev_9_Fruit
 import { useNavigate } from 'react-router-dom'
 
+//dev_8_Fruit
 const CheckOut = () => {
   const [shippingData, setShippingData] = useState({
     full_name: '',
@@ -15,7 +16,7 @@ const CheckOut = () => {
     email: '',
   })
 
-  const handleChange = (e) => {
+const handleChange = (e) => {
     const { name, value } = e.target
 
     //✅ [name]: value는?
@@ -33,25 +34,26 @@ const CheckOut = () => {
     setShippingData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const {  clearCart,userCart } = useCart()
-  console.log('userCart 👉', userCart)
-  console.log(userCart)
+const {  clearCart,userCart } = useCart()
+console.log('userCart 👉', userCart)
+console.log(userCart)
 
-  const navigate = useNavigate()
+const navigate = useNavigate()
 
-  const handlePayment = async () => {
-    // try {
-    //   const result = await RequestPay(shippingData, cartItems)
+//dev_9_Fruit
+const handlePayment = async () => {
+    try {
+      const result = await RequestPay(shippingData, cartItems)
 
-    //   if (result) {
-    //     console.log('===============')
-    //     clearCart() // 장바구니 비우기
-    //     navigate('/') // 루트로 이동
-    //   }
-    // } catch (err) {
-    //   console.error('결제 실패:', err)
-    // }
-  }
+      if (result) {
+        console.log('===============')
+        clearCart() // 장바구니 비우기
+        navigate('/') // 루트로 이동
+      }
+    } catch (err) {
+      console.error('결제 실패:', err)
+    }
+}
 
   return (
     <>

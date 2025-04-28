@@ -221,6 +221,15 @@ CART_SESSION_ID = "cart"
 # POST /auth/users/	회원가입
 # GET /auth/users/me/	현재 로그인된 사용자 조회
 
+# 🧩 Django에서 JWT 기반으로 request.user가 세팅되는 과정
+# Request 도착
+# JWTAuthentication 클래스가 발동
+# Authorization 헤더에 있는 access_token을 읽음
+# 토큰 검증 (서명 확인, 만료 확인 등)
+# 토큰 payload에서 user_id 가져옴
+# DB에서 해당 user를 조회
+# request.user에 설정
+
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.SessionAuthentication",  # dev_11_Fruit 추가

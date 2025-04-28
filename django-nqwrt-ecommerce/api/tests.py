@@ -1,59 +1,57 @@
-# Create your tests here.
+
 from django.test import TestCase
-import jwt
+from django.contrib.auth.hashers import make_password, check_password
+# 서명(Signature) 테스트
+from django.core.signing import Signer, BadSignature   
+
+class HashEncryptionTestCase(TestCase):
+
+    #단방향 해시 테스트#
+    def test_one_way_hash(self):
+        original_password = "1234"
+
+        #비밀번호 해시 
+        hashed_password = make_password(original_password)
+        print("암호화 확인", hashed_password)
+        
+        # 해시된 값은 원본과 다름
+        self.assertNotEqual(original_password,hashed_password) # 두개가 달라야 참
+
+        # check_password로만 원본과 같은지 검증 가능
+        isTrue =  check_password(original_password,hashed_password)
+        print(isTrue)
+    
+    # 서명(signing) 테스트 코드
+    
+    #서명된값: my-secret-data:bDMOijmfGwA6uqlTYNhj-A5d61Lo933w02gZ3Wc3cZI
+    #복원된 값 my-secret-data
+    #원본 데이터 --[HMAC-SHA256+base64]--> 서명(signature)  
+    #=> 저장: "원본:서명"
+
+    #검증할 때는:
+    #"원본"을 다시 서명 --> 비교 --> 다르면 BadSignature 예외
+    def test_signing(self):
+        signer = Signer()
+        
+        # 데이터에 서명
+        #sign()
+        #value에 대해 HMAC-SHA256 해시 생성
+        #해시를 base64 인코딩
+        #원본 + 해시를 합쳐서 리턴
+
+        original_value = "my-secret-data"
+        signed_value = signer.sign(original_value)
+
+        print("서명된값:", signed_value)
+
+        # 서명된 값을 검증 및 복원
+        #unsign()
+        #전달받은 signed_value를 쪼개서 (value, signature)
+        #value를 다시 해싱해서 기존 signature랑 비교
+        #다르면 BadSignature 에러 발생
+        unsigned_value = signer.unsign(signed_value)
+
+        print("복원된 값", unsigned_value)
 
 
-# dev_5_Fruit
-# 🔍 해석
-# 필드	          의미	                 값 해석
-# exp	Expiration Time (만료 시간)	1744884869 → UTC 기준 2025-05-17 07:34:29 에 토큰 만료
-# iat	Issued At (발급 시각)	1744280069 → UTC 기준 2025-05-10 07:34:29 에 토큰 발급
-# jti	JWT ID (토큰 고유 ID)	"01fdf4faad8c4a17bd9f038aeb052d5b" → 이 토큰을 식별하기 위한 고유한 ID (무작위 UUID처럼 사용)
 
-
-class ApiTest(TestCase):
-    def test_jwt_decode_access_token(self):
-        access_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ0MjgxODY5LCJpYXQiOjE3NDQyODAwNjksImp0aSI6ImNmZWQ2OWVkNzRhOTRiODlhMjNjYWQxNTU4MWEzMDNmIiwidXNlcl9pZCI6MX0.1X7T5UbLrRxAutk8SdvZbV0a7vUiBX2SAT03QReBTKY"
-
-        refresh_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0NDg4NDg2OSwiaWF0IjoxNzQ0MjgwMDY5LCJqdGkiOiIwMWZkZjRmYWFkOGM0YTE3YmQ5ZjAzOGFlYjA1MmQ1YiIsInVzZXJfaWQiOjF9.Gj-oFC0ZdSdKyqqYWXPEFGweXoTwlW7aC-fC4zjdrKA"
-
-        print("\n▶ ACCESS TOKEN 디코딩 결과:")
-        access_decoded = jwt.decode(access_token, options={"verify_signature": False})
-        for key, value in access_decoded.items():
-            print(f"{key}: {value}")
-
-        print("\n▶ REFRESH TOKEN 디코딩 결과:")
-        refresh_decoded = jwt.decode(refresh_token, options={"verify_signature": False})
-        for key, value in refresh_decoded.items():
-            print(f"{key}: {value}")
-
-        # 기본적인 체크
-        self.assertEqual(access_decoded["token_type"], "access")
-        self.assertEqual(refresh_decoded["token_type"], "refresh")
-        self.assertEqual(access_decoded["user_id"], 1)
-        self.assertEqual(refresh_decoded["user_id"], 1)
-
-
-from rest_framework.test import APITestCase
-from rest_framework import status
-
-
-class UserMeAPITest(APITestCase):
-    def setUp(self):
-        # 이미 발급받은 토큰을 여기에 넣으세요
-        self.access_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ0MjgzMTcyLCJpYXQiOjE3NDQyODEzNzIsImp0aSI6ImQzYzE5MWYzZjRhYzQ0MmE4NTU0YzIyOGQ1ZGM5ZjhiIiwidXNlcl9pZCI6MX0.BlLTY1T1mUyB4t2BKgGE2YaY6LXnrIHfvogJ9RtB-wo"
-        self.url = "http://127.0.0.1:8000/api/auth/users/me/"
-
-    def test_get_user_me(self):
-        # Authorization 헤더에 JWT 토큰 포함
-        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {self.access_token}")
-
-        response = self.client.get(self.url)
-
-        print("🔎 응답 JSON:", response.json())
-
-        # 테스트: 200 OK 확인
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-        # 테스트: 사용자 정보에 username 포함 여부
-        self.assertIn("username", response.data)

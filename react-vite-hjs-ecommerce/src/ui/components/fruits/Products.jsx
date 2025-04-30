@@ -90,7 +90,7 @@ const Products = () => {
                   {filteredProducts.map((product) => (
                   <div  key={product.id} className="col-md-6 col-lg-4 col-xl-3">
                     <div className="rounded position-relative fruite-item">
-                      <div className="fruite-img fruite-img ratio ratio-4x3 overflow-hidden rounded-top">
+                      <div className="fruite-img ratio ratio-4x3 overflow-hidden rounded-top">
                         <img
                           src={`${import.meta.env.VITE_API_BASE_URL}${product.image}`}
                           className="img-fluid w-100 rounded-top"

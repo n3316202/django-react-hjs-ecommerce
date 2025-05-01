@@ -189,7 +189,7 @@ CART_SESSION_ID = "cart"
 # POST /auth/jwt/refresh/	액세스 토큰 갱신
 # POST /auth/jwt/verify/	토큰 유효성 확인
 # POST /auth/users/	회원가입
-# GET /auth/users/me/	현재 로그인된 사용자 조회
+# GET  /auth/users/me/	현재 로그인된 사용자 조회
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (

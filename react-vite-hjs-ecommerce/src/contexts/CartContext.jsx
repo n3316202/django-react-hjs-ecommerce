@@ -20,6 +20,10 @@ import { useAuth } from "./AuthContext";
 //   },
 // }
 
+// self.cart = {
+//     "1":{"quantity":7,"price":"3000.00"}
+//     "2":{"quantity":1,"price":"5000.00"}
+//  }
 
 const CartContext = createContext();
 
@@ -96,14 +100,14 @@ export const CartProvider = ({ children }) => {
 
 
   // ✅ 장바구니 추가
-  const addToCart = async (product, qty = 1) => {
+  const addToCart = async (product, quantity = 1) => {
     const productId = product.id;
     const price = product.price;
 
     if (user) {
       try {
         
-        const response = await addCart(product.id, qty);
+        const response = await addCart(product.id, quantity);
         console.log(response)
 
         loadCart()

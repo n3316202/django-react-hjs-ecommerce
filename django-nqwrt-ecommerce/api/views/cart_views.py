@@ -124,6 +124,7 @@ class CartAPIView(APIView):
 # POST	   /api/cart/merge	  장바구니에    상품 추가
 class CartMergeAPIView(APIView):
     permission_classes = [IsAuthenticated]
+    
     def post(self, request):
         """
         localStorage의 장바구니를 서버 old_cart에 병합

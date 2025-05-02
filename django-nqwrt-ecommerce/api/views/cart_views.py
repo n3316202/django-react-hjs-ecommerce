@@ -129,20 +129,21 @@ class CartMergeAPIView(APIView):
         """
         localStorage의 장바구니를 서버 old_cart에 병합
         """
-        user = request.user
+        local_storage_cart = request.data.get("cart", "{}")
         
-        local_cart = request.data.get("cart", "{}")
-
-        local_cart = json.loads(local_cart or "{}")
+        user = request.user
         old_cart = json.loads(user.old_cart or "{}")
+        
+        local_storage_cart = json.loads(local_storage_cart or "{}")
                 
         print("old_cart:::::::::" , old_cart)
-        print("local_cart:::::::::", local_cart)
+        print("local_cart:::::::::", local_storage_cart)
         print(user)
 
         # 병합: 같은 상품이 있다면 수량 증가
-        for product_id, item in local_cart.items():
+        for product_id, item in local_storage_cart.items():
             quantity = int(item.get("quantity", 0))
+            
             if product_id in old_cart:
                 old_cart[product_id]["quantity"] += quantity
             else:

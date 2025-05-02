@@ -7,11 +7,16 @@ const Navbar = () => {
 
   //dev_5_Fruit
   const {user,logout} = useAuth();
+  //dev_6_Fruit
+  const {clearCart} = useCart()
+
   console.log("유저")
   console.log(user)
 
   const logoutHandle = () => {
     logout()
+    //dev_6_Fruit
+    clearCart()
   };
 
   //dev_6_Fruit 장바구니 카트 숫자

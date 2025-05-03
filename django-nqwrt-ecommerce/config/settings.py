@@ -218,3 +218,5 @@ DJOSER = {
     },
     "CREATE_SESSION_ON_LOGIN": True,  # 로그인하면 세션도 생성됨
 }
+
+https://velog.io/@mechauk418/DRF-dj-rest-auth-JWT-%EC%84%B8%ED%8C%85-%EA%B4%80%EB%A0%A8-%EB%B3%80%EA%B2%BD%EB%90%9C-%EC%A0%90-http-only-%EC%BF%A0%ED%82%A4-%EC%84%A4%EC%A0%95%EB%B2%95

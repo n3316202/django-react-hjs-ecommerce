@@ -61,10 +61,10 @@ INSTALLED_APPS = [
     "dj_rest_auth.registration",
     # JWT (선택적으로 cookies 지원)
     # "rest_framework_simplejwt.token_blacklist",
-    "social_django",  # 추가
+    #"social_django",  # 추가
     # "djangorestframework_simplejwt",  # 추가
     # simple-jwt 추가해주기
-    "rest_framework_simplejwt",
+    #"rest_framework_simplejwt",
 ]
 
 MIDDLEWARE = [
@@ -214,7 +214,8 @@ CART_SESSION_ID = "cart"
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        #"rest_framework_simplejwt.authentication.JWTAuthentication",
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
     ),
 }
 
@@ -255,7 +256,10 @@ REST_USE_JWT = True  # JWT 사용
 # 3.0.0버전 이상
 REST_AUTH = {
     "USE_JWT": True,
-    "JWT_AUTH_HTTPONLY": False,
+    #"JWT_AUTH_HTTPONLY": False,
+    'JWT_AUTH_REFRESH_COOKIE' : "refresh_token",
+    'JWT_AUTH_COOKIE_USE_CSRF' : True,
+    'SESSION_LOGIN' : False
 }
 
 
@@ -317,5 +321,5 @@ SOCIALACCOUNT_PROVIDERS = {
 
 SOCIALACCOUNT_ADAPTER = "accounts.adapters.KakaoSocialAccountAdapter"
 
-CORS_ALLOW_ALL_ORIGINS = True  # 개발 중이라면 허용
-CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
+#CORS_ALLOW_ALL_ORIGINS = True  # 개발 중이라면 허용
+#CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]

@@ -64,25 +64,5 @@ urlpatterns = [
     path("dj-rest-auth/registration/", include("dj_rest_auth.registration.urls")),
     path("dj-rest-auth/kakao/", social_views.KakaoLoginView.as_view(), name="kakao_login"),
 ]
-# dev_5_Fruit
-# 2. 생성되는 URL
-# ✅ djoser.urls (/auth/ 아래에 생성되는 URL)
 
-# 메서드	경로	설명
-# POST	/auth/users/	회원가입
-# GET	    /auth/users/me/	현재 로그인된 유저 정보
-# POST	/auth/users/resend_activation/	활성화 이메일 재전송 (선택)
-# POST	/auth/users/activation/	계정 활성화 (선택)
-# POST	/auth/users/set_password/	비밀번호 변경 (로그인 상태)
-# POST	/auth/users/reset_password/	비밀번호 재설정 이메일 전송
-# POST	/auth/users/reset_password_confirm/	비밀번호 재설정 확인
-# POST	/auth/token/login/	세션 로그인 (Token 기반 인증 사용 시)
-# POST	/auth/token/logout/	세션 로그아웃 (Token 기반 인증 사용 시)
-
-# ✅ djoser.urls.jwt (/auth/jwt/ 아래에 생성되는 URL)
-
-# 메서드	경로	설명
-# POST	/auth/jwt/create/	JWT 로그인 (access + refresh 발급)
-# POST	/auth/jwt/refresh/	access 토큰 재발급
-# POST	/auth/jwt/verify/	토큰 유효성 검사
-# POST	/auth/jwt/logout/	로그아웃 (refresh 토큰 블랙리스트 처리)
+#http://127.0.0.1:8000/api/dj-rest-auth/login/

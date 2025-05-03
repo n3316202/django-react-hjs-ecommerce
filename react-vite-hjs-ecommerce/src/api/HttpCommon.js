@@ -6,6 +6,7 @@ const accessToken = localStorage.getItem("access"); // ✅ localStorage에서 �
 //dev_5_Fruit
 const http = axios.create({
   baseURL: import.meta.env.VITE_REQUEST_URL,
+  withCredentials: true, // ✅ 세션 쿠키도 같이 보냄 dev_10_1_Fruit
   headers: {
     Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
   },

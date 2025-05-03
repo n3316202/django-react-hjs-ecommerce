@@ -51,13 +51,13 @@ const handleKakaoLogin = () => {
 
         console.log('로그인 성공:', response.data)
         // JWT 저장 및 로그인 상태 업데이트 등
-        localStorage.setItem('access_token', response.data.access)
-        localStorage.setItem('refresh_token', response.data.refresh)
+        localStorage.setItem('access', response.data.access)
+        localStorage.setItem('refresh', response.data.refresh)
 
-        // 리다이렉트 등
+        // 리다이렉트 등 테스트 코드
         const response2 = await getCurrentUser()
-        print('리스판스2')
-        print(response2)
+        console.log('리스판스2')
+        console.log(response2)
 
         navigate('/') // ← 로그인 성공 후 홈으로 리다이렉트
       } catch (error) {

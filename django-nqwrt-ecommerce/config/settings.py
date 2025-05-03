@@ -256,7 +256,7 @@ REST_USE_JWT = True  # JWT 사용
 # 3.0.0버전 이상
 REST_AUTH = {
     "USE_JWT": True,
-    #"JWT_AUTH_HTTPONLY": False,
+    "JWT_AUTH_HTTPONLY": True,
     'JWT_AUTH_REFRESH_COOKIE' : "refresh_token",
     'JWT_AUTH_COOKIE_USE_CSRF' : True,
     'SESSION_LOGIN' : False
@@ -272,7 +272,7 @@ DJOSER = {
         "user": "accounts.serializers.UserSerializer",
         "current_user": "accounts.serializers.UserSerializer",
     },
-    "CREATE_SESSION_ON_LOGIN": True,  # 로그인하면 세션도 생성됨
+    #"CREATE_SESSION_ON_LOGIN": True,  # 로그인하면 세션도 생성됨
 }
 # 카카오 소셜 로그인 때문은 아니고, 기본 로그인 방식(이메일 or 사용자명 등)에만 적용되는 설정
 #'username' → 사용자명이 필요

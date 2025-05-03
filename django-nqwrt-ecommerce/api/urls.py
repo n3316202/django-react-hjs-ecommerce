@@ -68,7 +68,7 @@ urlpatterns = [
 #http://127.0.0.1:8000/api/dj-rest-auth/login/
 
 
-✅ 기본 엔드포인트 목록 (JWT 기준)
+# ✅ 기본 엔드포인트 목록 (JWT 기준)
 # HTTP Method	Endpoint URL	설명
 # POST	/dj-rest-auth/login/	로그인 (JWT 또는 세션)
 # POST	/dj-rest-auth/logout/	로그아웃 (세션 삭제 or 쿠키 삭제)

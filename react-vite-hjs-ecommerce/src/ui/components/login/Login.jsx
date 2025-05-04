@@ -8,7 +8,7 @@ import { getCurrentUser } from '@/api/AuthApi';
 //dev_5_Fruit
 const Login = () => {
 
-  const { login } = useAuth();
+  const { login ,getUser} = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -63,9 +63,8 @@ const handleKakaoLogin = () => {
         localStorage.setItem('refresh', response.data.refresh)
 
         // 리다이렉트 등 테스트 코드
-        const response2 = await getCurrentUser()
-        console.log('리스판스2')
-        console.log(response2)
+        response = await getUser() //dev_10_1_Fruit
+        console.log(response)
 
         navigate('/') // ← 로그인 성공 후 홈으로 리다이렉트
       } catch (error) {

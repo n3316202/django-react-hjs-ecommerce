@@ -51,6 +51,7 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     user,
+    getUser, //dev_10_1_Fruit
     accessToken,
     login,
     logout,

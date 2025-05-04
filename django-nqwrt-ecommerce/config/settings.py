@@ -200,8 +200,8 @@ CART_SESSION_ID = "cart"
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        #"rest_framework_simplejwt.authentication.JWTAuthentication",
-        "dj_rest_auth.jwt_auth.JWTCookieAuthentication", #dev_10_1
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        #"dj_rest_auth.jwt_auth.JWTCookieAuthentication", #dev_10_1
     ),
 }
 
@@ -240,10 +240,10 @@ REST_USE_JWT = True  # JWT 사용
 # 3.0.0버전 이상
 REST_AUTH = {
     "USE_JWT": True,
-    "JWT_AUTH_HTTPONLY": True,
-    'JWT_AUTH_REFRESH_COOKIE' : "refresh_token",
-    'JWT_AUTH_COOKIE_USE_CSRF' : True,
-    'SESSION_LOGIN' : False
+    "JWT_AUTH_HTTPONLY": False,
+    #'JWT_AUTH_REFRESH_COOKIE' : "refresh_token",
+    #'JWT_AUTH_COOKIE_USE_CSRF' : True,
+    #'SESSION_LOGIN' : False
 }
 
 # dev_10_1_Fruit
@@ -262,29 +262,7 @@ DJOSER = {
     },
     #"CREATE_SESSION_ON_LOGIN": True,  # 로그인하면 세션도 생성됨
 }
-# 카카오 소셜 로그인 때문은 아니고, 기본 로그인 방식(이메일 or 사용자명 등)에만 적용되는 설정
-#'username' → 사용자명이 필요
-#'email' → 이메일만으로 로그인 (아이디 없이)
-#'username_email' → 둘 다 가능
-# ACCOUNT_AUTHENTICATION_METHOD = "username"  # ✅ 사용자명으로 로그인
-# ACCOUNT_USERNAME_REQUIRED = True  # 사용자명 필수
-# ACCOUNT_EMAIL_REQUIRED = True  # 이메일도 받게 (소셜용 등)
-# ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
 
-# 로그인 방식: 이메일로 로그인
-ACCOUNT_AUTHENTICATION_METHOD = "username_email"
-ACCOUNT_USERNAME_REQUIRED = False  # username 필요 없음
-ACCOUNT_EMAIL_REQUIRED = True  # 이메일 필수
-ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"  # username을 필드로 씀
-
-# 이메일 인증 건너뛰기 (선택)
-ACCOUNT_EMAIL_VERIFICATION = "none"  # 개발 중에는 'none' 추천
-ACCOUNT_LOGOUT_ON_GET = True
-SOCIALACCOUNT_LOGIN_ON_GET = True
-
-# 로그인/로그아웃 리다이렉트 (optional)
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/"
 
 from decouple import config  # or os.environ
 
@@ -309,5 +287,4 @@ SOCIALACCOUNT_PROVIDERS = {
 
 SOCIALACCOUNT_ADAPTER = "accounts.adapters.KakaoSocialAccountAdapter"
 
-#CORS_ALLOW_ALL_ORIGINS = True  # 개발 중이라면 허용
-#CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
+

@@ -243,7 +243,9 @@ REST_AUTH = {
     "JWT_AUTH_HTTPONLY": True,
     'JWT_AUTH_REFRESH_COOKIE' : "refresh_token",
     'JWT_AUTH_COOKIE_USE_CSRF' : True,
-    'SESSION_LOGIN' : False
+    'SESSION_LOGIN' : False,
+    #'USER_DETAILS_SERIALIZER': "accounts.serializers.UserRestAllAuthSerializer",
+    'USER_DETAILS_SERIALIZER': "accounts.serializers.UserSerializer",
 }
 
 # dev_10_2_Fruit
@@ -313,7 +315,3 @@ ACCOUNT_LOGOUT_ON_GET = True
 SOCIALACCOUNT_LOGIN_ON_GET = True #브라우저에서 단순히 링크 클릭이나 리다이렉트로 로그아웃을 시킬 수 있게 하려면 GET 요청을 허용해야 함.
 
 # dj-rest-auth + allauth 사용 시 커스터마이징을 위한 adapter 설정
-REST_AUTH_SERIALIZERS = {
-    "USER_DETAILS_SERIALIZER": "accounts.serializers.UserRestAllAuthSerializer",
-    "REGISTER_SERIALIZER": "accounts.serializers.UserCreateSerializer",
-}

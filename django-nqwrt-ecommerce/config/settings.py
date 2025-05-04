@@ -219,9 +219,7 @@ REST_FRAMEWORK = {
     ),
 }
 
-#    'AUTH_HEADER_TYPES': ('JWT',),
-#    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
-#    'REFRESH_TOKEN_LIFETIME': timedelta(days=2),
+
 from datetime import timedelta
 
 #Bearer"로 설정되어 있어서 Authorization: Bearer <token> 형태로 사용함.
@@ -239,7 +237,7 @@ DJOSER = {
         "user": "accounts.serializers.UserSerializer",
         "current_user": "accounts.serializers.UserSerializer",
     },
-    "CREATE_SESSION_ON_LOGIN": True,  # 로그인하면 세션도 생성됨
+    #"CREATE_SESSION_ON_LOGIN": True,  # 로그인하면 세션도 생성됨
 }
 
 # dev_10_Fruit
@@ -265,7 +263,6 @@ REST_AUTH = {
 # dev_10_1_Fruit
 #브라우저는 axios의 withCredentials: true 요청 시 쿠키를 포함해 전송
 CORS_ALLOW_CREDENTIALS = True
-
 
 
 # http://127.0.0.1:8000/api/auth/users/me/

@@ -38,12 +38,20 @@ const handleKakaoLogin = () => {
     return
   }
 
+
   window.Kakao.Auth.login({
     scope: 'profile_nickname, account_email, gender', // 원하는 scope
     success: async function (authObj) {
       const kakaoAccessToken = authObj.access_token
       console.log('Kakao Access Token:', kakaoAccessToken)
-
+      
+      //https://developers.kakao.com/docs/latest/ko/kakaologin/js
+      //https://velog.io/@ads0070/%EC%B9%B4%EC%B9%B4%EC%98%A4-%EB%A1%9C%EA%B7%B8%EC%9D%B8-API%EB%A1%9C-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EC%9D%B8%EC%A6%9D%ED%95%98%EA%B8%B0
+      //스텝 1과 스텝2 를 마친 과정
+      //현재 단계	Kakao 로그인 성공 후 access_token을 받은 시점
+      
+      //아래는 스테3 아래는 발급받은 토큰으로 사용자 정보 조회
+      //다음 단계	access_token을 백엔드에 전달 → 사용자 인증 처리
       try {
         const response = await axios.post(`${import.meta.env.VITE_REQUEST_URL}/api/dj-rest-auth/kakao/`, {
           access_token: kakaoAccessToken,

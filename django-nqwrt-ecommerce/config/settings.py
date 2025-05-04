@@ -200,8 +200,8 @@ CART_SESSION_ID = "cart"
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        #"rest_framework_simplejwt.authentication.JWTAuthentication",
-        "dj_rest_auth.jwt_auth.JWTCookieAuthentication", #dev_10_1
+        "rest_framework_simplejwt.authentication.JWTAuthentication", #dev_10_2_Fruit
+        #"dj_rest_auth.jwt_auth.JWTCookieAuthentication", #dev_10_1_Fruit
     ),
 }
 
@@ -246,7 +246,7 @@ REST_AUTH = {
     'SESSION_LOGIN' : False
 }
 
-# dev_10_1_Fruit
+# dev_10_2_Fruit
 #브라우저는 axios의 withCredentials: true 요청 시 쿠키를 포함해 전송
 CORS_ALLOW_CREDENTIALS = True
 
@@ -262,29 +262,10 @@ DJOSER = {
     },
     #"CREATE_SESSION_ON_LOGIN": True,  # 로그인하면 세션도 생성됨
 }
-# 카카오 소셜 로그인 때문은 아니고, 기본 로그인 방식(이메일 or 사용자명 등)에만 적용되는 설정
-#'username' → 사용자명이 필요
-#'email' → 이메일만으로 로그인 (아이디 없이)
-#'username_email' → 둘 다 가능
-# ACCOUNT_AUTHENTICATION_METHOD = "username"  # ✅ 사용자명으로 로그인
-# ACCOUNT_USERNAME_REQUIRED = True  # 사용자명 필수
-# ACCOUNT_EMAIL_REQUIRED = True  # 이메일도 받게 (소셜용 등)
-# ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
-
-# 로그인 방식: 이메일로 로그인
-ACCOUNT_AUTHENTICATION_METHOD = "username_email"
-ACCOUNT_USERNAME_REQUIRED = False  # username 필요 없음
-ACCOUNT_EMAIL_REQUIRED = True  # 이메일 필수
-ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"  # username을 필드로 씀
-
-# 이메일 인증 건너뛰기 (선택)
-ACCOUNT_EMAIL_VERIFICATION = "none"  # 개발 중에는 'none' 추천
-ACCOUNT_LOGOUT_ON_GET = True
-SOCIALACCOUNT_LOGIN_ON_GET = True
 
 # 로그인/로그아웃 리다이렉트 (optional)
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/"
+#LOGIN_REDIRECT_URL = "/"
+#LOGOUT_REDIRECT_URL = "/"
 
 from decouple import config  # or os.environ
 
@@ -309,5 +290,30 @@ SOCIALACCOUNT_PROVIDERS = {
 
 SOCIALACCOUNT_ADAPTER = "accounts.adapters.KakaoSocialAccountAdapter"
 
-#CORS_ALLOW_ALL_ORIGINS = True  # 개발 중이라면 허용
-#CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
+#dev_10_2_Fruit dj_rest_auth 설정
+
+# 카카오 소셜 로그인 때문은 아니고, 기본 로그인 방식(이메일 or 사용자명 등)에만 적용되는 설정
+#'username' → 사용자명이 필요
+#'email' → 이메일만으로 로그인 (아이디 없이)
+#'username_email' → 둘 다 가능
+# ACCOUNT_AUTHENTICATION_METHOD = "username"  # ✅ 사용자명으로 로그인
+# ACCOUNT_USERNAME_REQUIRED = True  # 사용자명 필수
+# ACCOUNT_EMAIL_REQUIRED = True  # 이메일도 받게 (소셜용 등)
+# ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
+
+# 로그인 방식: 이메일로 로그인
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_USERNAME_REQUIRED = False  # username 필요 없음
+ACCOUNT_EMAIL_REQUIRED = True  # 이메일 필수
+ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"  # username을 필드로 씀
+
+# 이메일 인증 건너뛰기 (선택)
+ACCOUNT_EMAIL_VERIFICATION = "none"  # 개발 중에는 'none' 추천
+ACCOUNT_LOGOUT_ON_GET = True 
+SOCIALACCOUNT_LOGIN_ON_GET = True #브라우저에서 단순히 링크 클릭이나 리다이렉트로 로그아웃을 시킬 수 있게 하려면 GET 요청을 허용해야 함.
+
+# dj-rest-auth + allauth 사용 시 커스터마이징을 위한 adapter 설정
+REST_AUTH_SERIALIZERS = {
+    "USER_DETAILS_SERIALIZER": "accounts.serializers.UserSerializer",
+    "REGISTER_SERIALIZER": "accounts.serializers.UserCreateSerializer",
+}

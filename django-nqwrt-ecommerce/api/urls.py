@@ -65,6 +65,14 @@ urlpatterns = [
     path("dj-rest-auth/kakao/", social_views.KakaoLoginView.as_view(), name="kakao_login"),
 ]
 
+# ✅ 예시 흐름: Kakao 소셜 로그인
+# 사용자가 Kakao로 로그인
+# Allauth가 access_token으로 사용자 정보 요청
+# populate_user() 호출 → User 객체 초기화 (필드 채움)
+# User가 DB에 저장됨 (신규 가입인 경우)
+# 로그인 성공 → CustomLoginSerializer.validate() 실행
+# → 로그인 응답에 user 정보 포함
+
 #http://127.0.0.1:8000/api/dj-rest-auth/login/
 
 

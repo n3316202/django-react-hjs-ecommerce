@@ -8,7 +8,7 @@ import { getCurrentUser } from '@/api/AuthApi';
 //dev_5_Fruit
 const Login = () => {
 
-  const { login } = useAuth();
+  const { login , getUser} = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -53,7 +53,7 @@ const handleKakaoLogin = () => {
       //아래는 스테3 아래는 발급받은 토큰으로 사용자 정보 조회
       //다음 단계	access_token을 백엔드에 전달 → 사용자 인증 처리
       try {
-        const response = await axios.post(`${import.meta.env.VITE_REQUEST_URL}/api/dj-rest-auth/kakao/`, {
+        let response = await axios.post(`${import.meta.env.VITE_REQUEST_URL}/api/dj-rest-auth/kakao/`, {
           access_token: kakaoAccessToken,
         })
 
@@ -63,9 +63,9 @@ const handleKakaoLogin = () => {
         localStorage.setItem('refresh', response.data.refresh)
 
         // 리다이렉트 등 테스트 코드
-        const response2 = await getCurrentUser()
-        console.log('리스판스2')
-        console.log(response2)
+        response = await getUser()
+        console.log('리스판스')
+        console.log(response)
 
         navigate('/') // ← 로그인 성공 후 홈으로 리다이렉트
       } catch (error) {

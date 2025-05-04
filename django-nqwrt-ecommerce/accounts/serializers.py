@@ -31,3 +31,21 @@ class UserSerializer(BaseUserSerializer):
             "created_at",
             "updated_at",
         )
+
+#dev_10_2_Fruit
+from rest_framework import serializers
+
+class UserRestAllAuthSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "id",
+            "username",
+            "email",
+            "gender",
+            "job",
+            "old_cart",
+            "created_at",
+            "updated_at",
+        )
+

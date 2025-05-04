@@ -314,6 +314,6 @@ SOCIALACCOUNT_LOGIN_ON_GET = True #브라우저에서 단순히 링크 클릭이
 
 # dj-rest-auth + allauth 사용 시 커스터마이징을 위한 adapter 설정
 REST_AUTH_SERIALIZERS = {
-    "USER_DETAILS_SERIALIZER": "accounts.serializers.UserSerializer",
+    "USER_DETAILS_SERIALIZER": "accounts.serializers.UserRestAllAuthSerializer",
     "REGISTER_SERIALIZER": "accounts.serializers.UserCreateSerializer",
 }

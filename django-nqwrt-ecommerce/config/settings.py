@@ -248,7 +248,7 @@ REST_AUTH = {
 
 # dev_10_1_Fruit
 #브라우저는 axios의 withCredentials: true 요청 시 쿠키를 포함해 전송
-CORS_ALLOW_CREDENTIALS = True
+#CORS_ALLOW_CREDENTIALS = True
 
 
 # http://127.0.0.1:8000/api/auth/users/me/

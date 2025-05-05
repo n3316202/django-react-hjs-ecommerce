@@ -9,12 +9,12 @@ import http from './HttpCommon';
 //http://127.0.0.1:8000/api/
 
 // 로그인 - 토큰 발급
-export const loginUser = (username, password) => {
-  return http.post("/api/auth/jwt/create/", {
-    username,
-    password,
-  });
-};
+// export const loginUser = (username, password) => {
+//   return http.post("/api/auth/jwt/create/", {
+//     username,
+//     password,
+//   });
+// };
 
 // 액세스 토큰 갱신
 // export const refreshToken = (refresh) => {
@@ -65,6 +65,13 @@ export const getCurrentUser = () => {
 // # POST	/dj-rest-auth/jwt/create/	JWT 로그인 (access + refresh 발급)
 // # POST	/dj-rest-auth/jwt/refresh/	access token 재발급
 // # POST	/dj-rest-auth/jwt/verify/	JWT 유효성 검증
+//dev_10_2_Fruit
+export const loginUser = (username, password) => {
+  return http.post("/api/dj-rest-auth/login/", {
+    username,
+    password,
+  });
+};
 
 // # ✅ 소셜 로그인 시 추가 엔드포인트 (예: Kakao, Google 등)
 // # allauth 및 dj-rest-auth.registration을 함께 설정해야 합니다.

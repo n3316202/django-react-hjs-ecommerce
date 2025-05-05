@@ -88,12 +88,11 @@ urlpatterns = [
 # PUT/PATCH	/dj-rest-auth/user/	사용자 정보 수정
 
 # ✅ JWT 사용 시 추가 엔드포인트
-# (dj-rest-auth 설정에서 REST_USE_JWT = True 설정한 경우)
+# (dj-rest-auth 설정에서 USE_JWT = True 설정한 경우)
 
 # HTTP Method	Endpoint URL	설명
-# POST	/dj-rest-auth/jwt/create/	JWT 로그인 (access + refresh 발급)
-# POST	/dj-rest-auth/jwt/refresh/	access token 재발급
-# POST	/dj-rest-auth/jwt/verify/	JWT 유효성 검증
+# POST	/dj-rest-auth/token/refresh/	access token 재발급
+# POST	/dj-rest-auth/token/verify/	JWT 유효성 검증
 
 # ✅ 소셜 로그인 시 추가 엔드포인트 (예: Kakao, Google 등)
 # allauth 및 dj-rest-auth.registration을 함께 설정해야 합니다.

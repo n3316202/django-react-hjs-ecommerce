@@ -62,20 +62,32 @@ http.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refresh = localStorage.getItem("refresh");
-        const res = await axios.post("http://127.0.0.1:8000/api/auth/jwt/refresh/", {
-          refresh: refresh,
+        //dev_10_2_Fruit
+        //const refresh = localStorage.getItem("refresh");
+        //const res = await axios.post("http://127.0.0.1:8000/api/auth/jwt/refresh/", {
+        //  refresh: refresh,
+        //});
+
+        // 쿠키 기반이므로 refresh를 직접 꺼내지 않아도 됨
+        const res =await axios.post("http://127.0.0.1:8000/api/dj-rest-auth/token/refresh/", null, {
+          withCredentials: true,
         });
 
+        console.log("악세스 토큰 갱신 되었습니다.")
         const newAccess = res.data.access;
         localStorage.setItem("access", newAccess);
+
 
         // Authorization 헤더 업데이트 후 원래 요청 다시 시도
         originalRequest.headers["Authorization"] = `Bearer ${newAccess}`;
         return http(originalRequest);
       } catch (refreshError) {
         console.error("🔒 토큰 갱신 실패", refreshError);
+        //dev_10_2_Fruit
         // 실패하면 로그인 상태 초기화 로직 추가 가능
+        localStorage.removeItem('access');
+        localStorage.removeItem('refresh');
+        window.location.href = '/login';
       }
     }
 

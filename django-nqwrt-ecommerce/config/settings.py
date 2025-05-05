@@ -200,8 +200,8 @@ CART_SESSION_ID = "cart"
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication", #dev_10_2_Fruit
-        #"dj_rest_auth.jwt_auth.JWTCookieAuthentication", #dev_10_1_Fruit
+        #"rest_framework_simplejwt.authentication.JWTAuthentication", #dev_10_2_Fruit
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication", #dev_10_1_Fruit
     ),
 }
 
@@ -210,8 +210,10 @@ from datetime import timedelta
 
 #Bearer"로 설정되어 있어서 Authorization: Bearer <token> 형태로 사용함.
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=3),#timedelta(minutes=30),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    # "ACCESS_TOKEN_LIFETIME": timedelta(days=3),#timedelta(minutes=30),
+    # "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(minutes=20),
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
 # http://127.0.0.1:8000/api/auth/users/me/

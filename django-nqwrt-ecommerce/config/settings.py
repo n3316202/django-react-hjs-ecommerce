@@ -59,12 +59,8 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "dj_rest_auth",
     "dj_rest_auth.registration",
-    # JWT (선택적으로 cookies 지원)
-    # "rest_framework_simplejwt.token_blacklist",
-    #"social_django",  # 추가
-    # "djangorestframework_simplejwt",  # 추가
-    # simple-jwt 추가해주기
-    #"rest_framework_simplejwt",
+    "drf_spectacular",#dev_10_3_Fruit
+
 ]
 
 MIDDLEWARE = [
@@ -203,6 +199,8 @@ REST_FRAMEWORK = {
         #"rest_framework_simplejwt.authentication.JWTAuthentication", #dev_10_2_Fruit
         "dj_rest_auth.jwt_auth.JWTCookieAuthentication", #dev_10_1_Fruit
     ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",#dev_10_3_Fruit
+
 }
 
 
@@ -318,3 +316,26 @@ ACCOUNT_LOGOUT_ON_GET = True
 SOCIALACCOUNT_LOGIN_ON_GET = True #브라우저에서 단순히 링크 클릭이나 리다이렉트로 로그아웃을 시킬 수 있게 하려면 GET 요청을 허용해야 함.
 
 # dj-rest-auth + allauth 사용 시 커스터마이징을 위한 adapter 설정
+
+#dev_10_3_Fruit
+SPECTACULAR_SETTINGS = {
+    # General schema metadata. Refer to spec for valid inputs
+    # https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.3.md#openapi-object
+    'TITLE': 'drf-spectacular API Document',
+    'DESCRIPTION': 'drf-specatular 를 사용해서 만든 API 문서입니다.',
+    'SWAGGER_UI_SETTINGS': {
+        'dom_id': '#swagger-ui',
+        'layout': 'BaseLayout', 
+        'deepLinking': True,  
+        'displayOperationId': True,
+        'filter': True,
+    },
+   
+    'LICENSE': {
+        'name': 'MIT License',
+    },
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+
+    'SWAGGER_UI_DIST': '//unpkg.com/swagger-ui-dist@3.38.0',
+}

@@ -245,7 +245,8 @@ REST_AUTH = {
     'JWT_AUTH_COOKIE_USE_CSRF' : True,
     'SESSION_LOGIN' : False,
     #'USER_DETAILS_SERIALIZER': "accounts.serializers.UserRestAllAuthSerializer",
-    'USER_DETAILS_SERIALIZER': "accounts.serializers.UserSerializer",
+    'USER_DETAILS_SERIALIZER': "accounts.serializers.UserSerializer", #dev_10_2
+    'REGISTER_SERIALIZER': "accounts.serializers.CustomRegisterSerializer", #dev_10_2
 }
 
 # dev_10_2_Fruit

@@ -145,8 +145,8 @@ const Navbar = () => {
                         alt="카카오 프로필"
                         className="position-absolute rounded-circle"
                         style={{
-                          top: '-5px',
-                          left: '15px',
+                          bottom: '-5px',
+                          right: '-5px',
                           width: '20px',
                           height: '20px',
                           objectFit: 'cover',

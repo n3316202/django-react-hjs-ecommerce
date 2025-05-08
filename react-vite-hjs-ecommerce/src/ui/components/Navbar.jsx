@@ -138,22 +138,22 @@ const Navbar = () => {
                   {/* 기본 유저 아이콘 */}
                   <i className="fas fa-user fa-2x" />
 
-                      {/* 카카오 프로필 뱃지 */}
-                      {user && user.profile_image && (
-                        <img
-                          src={user.profile_image}
-                          alt="카카오 프로필"
-                          className="position-absolute rounded-circle"
-                          style={{
-                            top: '-5px',
-                            left: '15px',
-                            width: '20px',
-                            height: '20px',
-                            objectFit: 'cover',
-                            border: '1px solid #ccc',
-                          }}
-                        />
-                      )}
+                    {/* 카카오 프로필 뱃지 */}
+                    {user && user.profile_image && (
+                      <img
+                        src={user.profile_image}
+                        alt="카카오 프로필"
+                        className="position-absolute rounded-circle"
+                        style={{
+                          top: '-5px',
+                          left: '15px',
+                          width: '20px',
+                          height: '20px',
+                          objectFit: 'cover',
+                          border: '1px solid #ccc',
+                        }}
+                      />
+                    )}
                 </a>
               </div>
             </div>

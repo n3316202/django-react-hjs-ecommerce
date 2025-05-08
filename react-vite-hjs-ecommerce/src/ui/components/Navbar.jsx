@@ -134,6 +134,7 @@ const Navbar = () => {
                     {getTotalItems() }
                   </span>
                 </Link>
+                {/* dev_10_2_Fruit */}
                 <a href="#" className="position-relative me-4 my-auto">
                   {/* 기본 유저 아이콘 */}
                   <i className="fas fa-user fa-2x" />

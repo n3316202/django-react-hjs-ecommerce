@@ -66,7 +66,7 @@ urlpatterns = [
 
 # 메서드	경로	설명
 # POST	/auth/users/	회원가입
-# GET	    /auth/users/me/	현재 로그인된 유저 정보
+# GET	/auth/users/me/	현재 로그인된 유저 정보
 # POST	/auth/users/resend_activation/	활성화 이메일 재전송 (선택)
 # POST	/auth/users/activation/	계정 활성화 (선택)
 # POST	/auth/users/set_password/	비밀번호 변경 (로그인 상태)

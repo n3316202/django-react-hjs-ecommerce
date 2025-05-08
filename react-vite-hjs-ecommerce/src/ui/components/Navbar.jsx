@@ -135,7 +135,17 @@ const Navbar = () => {
                   </span>
                 </Link>
                 <a href="#" className="my-auto">
-                  <i className="fas fa-user fa-2x" />
+                  {/* dev_10_2_Fruit */}
+                {user && user.profile_image ? (
+                  <img
+                      src={user.profile_image}
+                      alt="카카오 프로필"
+                      className="rounded-circle"
+                      style={{ width: '32px', height: '32px', objectFit: 'cover' }}
+                    />
+                  ) : (
+                    <i className="fas fa-user fa-2x" />
+                  )}
                 </a>
               </div>
             </div>

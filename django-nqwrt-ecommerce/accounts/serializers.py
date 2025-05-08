@@ -45,6 +45,7 @@ class UserRestAllAuthSerializer(serializers.ModelSerializer):
             "gender",
             "job",
             "old_cart",
+            "profile_image",
             "created_at",
             "updated_at",
         )
@@ -65,14 +66,14 @@ class CustomRegisterSerializer(RegisterSerializer):
         data = super().get_cleaned_data()
         data['gender'] = self.validated_data.get('gender', '')
         data['job'] = self.validated_data.get('job', '')
-        # data['profile_image'] = self.validated_data.get('profile_image', '')
-        # data['kakao_id'] = self.validated_data.get('kakao_id', '')
+        #data['profile_image'] = self.validated_data.get('profile_image', '')
+        #data['kakao_id'] = self.validated_data.get('kakao_id', '')
         return data
 
     def custom_signup(self, request, user):
         # 추가 필드를 저장
         user.gender = self.validated_data.get('gender')
         user.job = self.validated_data.get('job')
-        # user.profile_image = self.validated_data.get('profile_image')
-        # user.kakao_id = self.validated_data.get('kakao_id')
+        #user.profile_image = self.validated_data.get('profile_image')
+        #user.kakao_id = self.validated_data.get('kakao_id')
         user.save()

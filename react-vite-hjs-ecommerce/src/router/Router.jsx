@@ -1,6 +1,7 @@
 import Cart from '@/ui/components/fruits/Cart';
 import CheckOut from '@/ui/components/fruits/CheckOut';
 import Products from '@/ui/components/fruits/Products';
+import Shop from '@/ui/components/fruits/Shop';
 import Hero from '@/ui/components/Hero';
 import Login from '@/ui/components/login/Login';
 import MainLayout from '@/ui/layouts/MainLayout'
@@ -31,6 +32,11 @@ const routes = [
         path: 'checkout', //dev_7_Fruit
         element: <div><CheckOut /></div>,
         loader: () => '로그인',
+      },
+      {
+        path: 'shop', //dev_710_4_Fruit
+        element: <div><Shop/></div>,
+        loader: () => '샵',
       },
     ],
   },

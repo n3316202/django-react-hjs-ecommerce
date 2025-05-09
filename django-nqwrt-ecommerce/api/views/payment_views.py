@@ -21,8 +21,7 @@ class PaymentViewSet(viewsets.ModelViewSet):
     serializer_class = PaymentSerializer
 
     # create 커스텀 마이징
-    def create(self, request, *args, **kwargs):
-    
+    def create(self, request, *args, **kwargs):    
 
         try:
             user = request.user

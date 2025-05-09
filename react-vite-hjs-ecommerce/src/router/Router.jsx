@@ -30,7 +30,7 @@ const routes = [
       {
         path: 'checkout', //dev_7_Fruit
         element: <div><CheckOut /></div>,
-        loader: () => '로그인',
+        loader: () => '체크아웃',
       },
     ],
   },

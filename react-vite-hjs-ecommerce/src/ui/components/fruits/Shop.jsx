@@ -56,6 +56,9 @@ const Shop = () => {
   
   const [categories, setCategories] = useState([]);
 
+  const [limitPrice, setLimitPrice] = useState(0);
+  const [price, setPrice] = useState(0);
+
   useEffect(() => {    
     //http://localhost:8000/api/categories/
     getCategories()
@@ -69,16 +72,15 @@ const Shop = () => {
       try {
         const response = await getProductMaxPrice();
         const fetchedMax = response.data.max_price;
-        setMaxPrice(fetchedMax);
+        setLimitPrice(fetchedMax);
       } catch (error) {
         console.error("최대 가격을 가져오는 중 오류 발생:", error);
       }
     };
     fetchMaxPrice();
-  }, []);
+  }, [limitPrice]);
 
-  // const [maxPrice, setMaxPrice] = useState(0);
-  const [price, setPrice] = useState(0);
+
   // const handlePriceChange = (e) => {
   //   setPrice(e.target.value);
   // };
@@ -91,6 +93,7 @@ const Shop = () => {
     setPrice(value);
     setMinPrice(0);
     setMaxPrice(value);
+    
   };
 
   const handleSearchChange = (e) => setSearch(e.target.value);
@@ -176,7 +179,7 @@ return (
                       id="rangeInput"
                       name="rangeInput"
                       min={0}
-                      max={maxPrice}
+                      max={limitPrice}
                       defaultValue={0}
                       onChange={handlePriceChange} 
                       oninput="amount.value=rangeInput.value"
@@ -185,7 +188,7 @@ return (
                       id="amount"
                       name="amount"
                       min-velue={0}
-                      max-value={maxPrice}
+                      max-value={limitPrice}
                       htmlFor="rangeInput"
                     >
                       {price}

@@ -8,6 +8,7 @@ from django.core.files import File
 from django.conf import settings
 from django.conf import settings
 from decouple import config  # 추가
+import glob
 
 UNSPLASH_ACCESS_KEY = config("UNSPLASH_ACCESS_KEY")  # 여기에 발급받은 키 입력
 
@@ -16,13 +17,13 @@ class Command(BaseCommand):
     help = "Download product images and seed the database with products."
 
     category_items = {
-        "전자제품": ["무선 이어폰", "스마트폰", "게이밍 마우스"],
-        "패션": ["남성 정장", "여성 블라우스", "청바지"],
-        "도서": ["파이썬 입문서", "역사책", "SF 소설"],
+        "전자제품": ["냉장고", "컴퓨터", "핸드폰"],
+        "패션": ["남성 정장", "여성 정장", "청바지"],
+        "도서": ["파이썬", "역사", "SF 소설"],
         "가구": ["원목 식탁", "컴퓨터 책상", "서랍장"],
-        "장난감": ["레고 세트", "RC 자동차", "퍼즐 블록"],
-        "스포츠": ["축구공", "요가매트", "헬스 장갑"],
-        "식품": ["유기농 바나나", "라면 세트", "아몬드"],
+        "장난감": ["레고 세트", "RC 자동차", "인형"],
+        "스포츠": ["축구", "농구", "헬스 장갑"],
+        "과일": ["바나나", "오렌지", "포도"],
     }
 
     def handle(self, *args, **options):
@@ -53,6 +54,16 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR(f"❌ 에러 발생: {e}"))
         return None
 
+    def get_random_existing_image(self, image_dir):
+        """
+        이미지 디렉토리에서 랜덤 이미지 경로를 반환.
+        """
+        #"image_dir" 폴더 안에 있는 .jpg 확장자를 가진 모든 이미지 파일의 경로 리스트를 반환
+        existing_images = glob.glob(os.path.join(image_dir, "*.jpg"))
+        if existing_images:
+            return random.choice(existing_images)
+        return None
+    
     def seed_products(self):
         image_dir = os.path.join(settings.MEDIA_ROOT, "upload", "product")
 
@@ -76,10 +87,20 @@ class Command(BaseCommand):
                 image_filename = f"{product_name}.jpg"
                 image_path = os.path.join(image_dir, image_filename)
 
+                # 이미지 다운로드 시도
                 if not os.path.exists(image_path):
                     image_path = self.download_unsplash_image(
                         product_name, image_filename, image_dir
                     )
+
+                #dev_3_Fruit
+                # 실패 시 대체 이미지 사용
+                if not image_path or not os.path.exists(image_path):
+                    image_path = self.get_random_existing_image(image_dir)
+                    
+                    if image_path:
+                        image_filename = os.path.basename(image_path)
+
 
                 if image_path and os.path.exists(image_path):
                     with open(image_path, "rb") as f:

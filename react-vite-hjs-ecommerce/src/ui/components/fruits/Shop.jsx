@@ -1,6 +1,4 @@
 import { getCategories } from '@/api/CategoryApi'
-import { getProducts } from '@/api/ProductApi'
-import { useCart } from '@/contexts/CartContext'
 import { usePagination } from '@/contexts/PaginationContext'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -24,13 +22,53 @@ import { Link } from 'react-router-dom'
 //             "sale_price": null
 //         },
 
+//http://localhost:8000/api/categories/
+    // {
+    //     "id": 9,
+    //     "products": [
+    //         {
+    //             "id": 22,
+    //             "name": "냉장고",
+    //             "price": "117.02",
+    //             "description": "냉장고는(은) 전자제품 카테고리에 속하는 상품입니다.",
+    //             "image": null,
+    //             "is_sale": true,
+    //             "sale_price": 93,
+    //             "category": 9
+    //         },
+    //         {
+    //             "id": 23,
+    //             "name": "컴퓨터",
+    //             "price": "55.75",
+    //             "description": "컴퓨터는(은) 전자제품 카테고리에 속하는 상품입니다.",
+    //             "image": "http://localhost:8000/media/upload/product/%EC%BB%B4%ED%93%A8%ED%84%B0_7fkv00F.jpg",
+    //             "is_sale": true,
+    //             "sale_price": 44,
+    //             "category": 9
+    //         },
+
 //dev_10_4_Fruit
 const Shop = () => {
 
-  const { products } = usePagination();
+  const { products, search, setSearch, ordering, setOrdering, category, setCategory,} = usePagination();
   console.log(products)
   
+  const [categories, setCategories] = useState([]);
 
+  useEffect(() => {    
+    //http://localhost:8000/api/categories/
+    getCategories()
+    .then(res => setCategories(res.data))
+    .catch(err => console.log(err))
+
+  }, []);
+
+
+  const handleSearchChange = (e) => setSearch(e.target.value);
+  // const handleSearchChange = (e) => setSearch(e.target.value);
+  const handleOrderingChange = (e) => setOrdering(e.target.value);
+  const handleCategoryClick = (e) => setCategory(e.target.value);
+  // const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
 return (  
 <>
@@ -44,6 +82,7 @@ return (
             <div className="col-xl-3">
               <div className="input-group w-100 mx-auto d-flex">
                 <input
+                  onChange={handleSearchChange}
                   type="search"
                   className="form-control p-3"
                   placeholder="keywords"
@@ -63,11 +102,13 @@ return (
                   name="fruitlist"
                   className="border-0 form-select-sm bg-light me-3"
                   form="fruitform"
+                  onChange={handleOrderingChange}
                 >
-                  <option value="volvo">Nothing</option>
-                  <option value="saab">Popularity</option>
-                  <option value="opel">Organic</option>
-                  <option value="audi">Fantastic</option>
+                  <option value="volvo">정렬선택</option>
+                  <option value="price">가격 낮은순</option>
+                  <option value="-price">가격 높은순</option>
+                  <option value="id">등록순</option>
+                  <option value="-id">최신순</option>                  
                 </select>
               </div>
             </div>
@@ -79,51 +120,21 @@ return (
                   <div className="mb-3">
                     <h4>Categories</h4>
                     <ul className="list-unstyled fruite-categorie">
-                      <li>
-                        <div className="d-flex justify-content-between fruite-name">
-                          <a href="#">
-                            <i className="fas fa-apple-alt me-2" />
-                            Apples
-                          </a>
-                          <span>(3)</span>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="d-flex justify-content-between fruite-name">
-                          <a href="#">
-                            <i className="fas fa-apple-alt me-2" />
-                            Oranges
-                          </a>
-                          <span>(5)</span>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="d-flex justify-content-between fruite-name">
-                          <a href="#">
-                            <i className="fas fa-apple-alt me-2" />
-                            Strawbery
-                          </a>
-                          <span>(2)</span>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="d-flex justify-content-between fruite-name">
-                          <a href="#">
-                            <i className="fas fa-apple-alt me-2" />
-                            Banana
-                          </a>
-                          <span>(8)</span>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="d-flex justify-content-between fruite-name">
-                          <a href="#">
-                            <i className="fas fa-apple-alt me-2" />
-                            Pumpkin
-                          </a>
-                          <span>(5)</span>
-                        </div>
-                      </li>
+                      
+                      { categories && categories.map((categorie,index) =>(
+                        <li key={index} >
+                          {/* style={{ cursor: 'pointer' }}  // 클릭 가능한 UI */}
+                          <div onClick={() => handleCategoryClick(categorie.name)} style={{ cursor: 'pointer' }}   className="d-flex justify-content-between fruite-name">
+                            <a href="#">
+                              <i className="fas fa-apple-alt me-2" />
+                              {categorie.name}
+                            </a>
+                            <span>({categorie.products.length})</span>
+                          </div>
+                        </li>
+                      ))}          
+                   
+                      
                     </ul>
                   </div>
                 </div>
@@ -327,12 +338,11 @@ return (
             <div className="col-lg-9">
               <div className="row g-4 justify-content-center">      
                 { products && products.map((product) => (
-                 
-                  <div className="col-md-6 col-lg-6 col-xl-4">
+                   <div  key={product.id} className="col-md-6 col-lg-4 col-xl-4">
                     <div className="rounded position-relative fruite-item">
-                      <div className="fruite-img">
+                      <div className="fruite-img fruite-img ratio ratio-4x3 overflow-hidden rounded-top">
                         <img
-                          src={`${import.meta.env.VITE_API_BASE_URL}${product.image}`}
+                          src={`${product.image}`}
                           className="img-fluid w-100 rounded-top"
                           alt=""
                         />
@@ -341,25 +351,25 @@ return (
                         className="text-white bg-secondary px-3 py-1 rounded position-absolute"
                         style={{ top: 10, left: 10 }}
                       >
-                        Fruits
+                         {product.category.name}
                       </div>
                       <div className="p-4 border border-secondary border-top-0 rounded-bottom">
-                        <h4>Oranges</h4>
+                        <h4 className="text-center">{product.name}</h4>
                         <p>
-                          Lorem ipsum dolor sit amet consectetur adipisicing elit
-                          sed do eiusmod te incididunt
+                          {product.description}
                         </p>
-                        <div className="d-flex justify-content-between flex-lg-wrap">
-                          <p className="text-dark fs-5 fw-bold mb-0">
-                            $4.99 / kg
+                        <div className="d-flex flex-column justify-content-center align-items-center flex-lg-wrap">
+                          <p className="text-dark fs-5 fw-bold mb-2">
+                            ${product.price} / kg
                           </p>
-                          <a
-                            href="#"
+                          {/* dev_6_Fruit */}
+                          <button
+                            onClick={() => addToCart(product)}      
                             className="btn border border-secondary rounded-pill px-3 text-primary"
                           >
                             <i className="fa fa-shopping-bag me-2 text-primary" />{" "}
                             Add to cart
-                          </a>
+                          </button>
                         </div>
                       </div>
                     </div>

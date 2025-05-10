@@ -23,8 +23,12 @@ router.register(r"categories", category_views.CategoryViewSet)
 # PUT/PATCH /api/payments/<id>/ – 수정
 # DELETE /api/payments/<id>/ – 삭제
 from api.views.payment_views import PaymentViewSet
-
 router.register(r"payments", PaymentViewSet)
+
+#dev_10_4_Fruit
+from api.views.product_views import ProductViewSet
+router.register('product-list', ProductViewSet, basename='product')
+
 
 # dev_30
 urlpatterns = [

@@ -18,6 +18,10 @@ export const PaginationProvider = ({ children }) => {
   const [ordering, setOrdering] = useState("");
   const [category, setCategory] = useState("");
 
+  //상태값 추가
+  const [minPrice, setMinPrice] = useState(null);
+  const [maxPrice, setMaxPrice] = useState(null);
+
   const pageSize = 10;
 
   // {
@@ -46,6 +50,8 @@ export const PaginationProvider = ({ children }) => {
       search,
       ordering,
       category,
+      min_price: minPrice,
+      max_price: maxPrice,
     });
 
       setProducts(response.data.results);
@@ -58,7 +64,7 @@ export const PaginationProvider = ({ children }) => {
   // 조건이 변경될 때마다 API 다시 호출
   useEffect(() => {
     fetchProducts();
-  }, [currentPage, search, ordering, category]);
+  }, [currentPage, search, ordering, category,minPrice, maxPrice]); 
 
   // Context 값 제공
   return (
@@ -75,6 +81,11 @@ export const PaginationProvider = ({ children }) => {
         category,
         setCategory,
         pageSize,
+        //상태값 추가
+        minPrice,
+        setMinPrice,
+        maxPrice,
+        setMaxPrice,
       }}
     >
       {children}

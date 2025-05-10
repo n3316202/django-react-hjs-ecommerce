@@ -6,6 +6,9 @@ from rest_framework import status
 
 from store.models import Product
 from api.serializers.product_serializers import ProductSerializer
+# dev_10_4_Fruit
+from rest_framework.decorators import action
+from django.db.models import Max
 
 # Create your views here.
 
@@ -73,6 +76,18 @@ from django_filters.rest_framework import DjangoFilterBackend
 # /api/product-list/?ordering=price	가격 오름차순 정렬
 # /api/product-list/?ordering=-id	최신순 정렬
 
+# filters.py
+import django_filters
+
+#GET /api/product-list/?min_price=100&max_price=300
+class ProductFilter(django_filters.FilterSet):
+    min_price = django_filters.NumberFilter(field_name='price', lookup_expr='gte')
+    max_price = django_filters.NumberFilter(field_name='price', lookup_expr='lte')
+
+    class Meta:
+        model = Product
+        fields = ['category', 'min_price', 'max_price']
+
 class ProductPagination(PageNumberPagination):
     page_size = 10
     page_size_query_param = 'page_size'
@@ -85,10 +100,13 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     pagination_class = ProductPagination
+    
+    #  추가
+    filterset_class = ProductFilter  # 필터셋 클래스 지정
 
     # 필터링/검색/정렬 backends 설정
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-
+    
     # 필터링 항목 (URL에서 ?category=값 으로 필터링 가능)
     filterset_fields = ['category']
 
@@ -98,3 +116,10 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     # 정렬 필드 (?ordering=price 또는 ?ordering=-created)
     ordering_fields = ['id','price', 'name']
     ordering = ['id']  # 기본 정렬
+    
+
+    #ViewSet 에서 URL 추가
+    @action(detail=False, methods=['get'], url_path='max-price')
+    def max_price(self, request):
+        max_price = Product.objects.aggregate(Max('price'))['price__max'] or 0
+        return Response({'max_price': max_price})

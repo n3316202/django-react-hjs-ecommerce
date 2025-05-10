@@ -1,4 +1,5 @@
 import { getCategories } from '@/api/CategoryApi'
+import { getProductMaxPrice } from '@/api/ProductApi'
 import { usePagination } from '@/contexts/PaginationContext'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -50,8 +51,8 @@ import { Link } from 'react-router-dom'
 //dev_10_4_Fruit
 const Shop = () => {
 
-  const { products, search, setSearch, ordering, setOrdering, category, setCategory,} = usePagination();
-  console.log(products)
+  const { products, search, setSearch, ordering, setOrdering, category, setCategory, maxPrice, setMaxPrice, setMinPrice } = usePagination();
+  //console.log(products)
   
   const [categories, setCategories] = useState([]);
 
@@ -60,9 +61,37 @@ const Shop = () => {
     getCategories()
     .then(res => setCategories(res.data))
     .catch(err => console.log(err))
-
   }, []);
 
+  // 서버에서 최대 가격 가져오기
+  useEffect(() => {
+    const fetchMaxPrice = async () => {
+      try {
+        const response = await getProductMaxPrice();
+        const fetchedMax = response.data.max_price;
+        setMaxPrice(fetchedMax);
+      } catch (error) {
+        console.error("최대 가격을 가져오는 중 오류 발생:", error);
+      }
+    };
+    fetchMaxPrice();
+  }, []);
+
+  // const [maxPrice, setMaxPrice] = useState(0);
+  const [price, setPrice] = useState(0);
+  // const handlePriceChange = (e) => {
+  //   setPrice(e.target.value);
+  // };
+
+  
+  // 슬라이더 값 변경 시
+  const handlePriceChange = (e) => {
+    const value = parseFloat(e.target.value);
+    console.log(value)
+    setPrice(value);
+    setMinPrice(0);
+    setMaxPrice(value);
+  };
 
   const handleSearchChange = (e) => setSearch(e.target.value);
   // const handleSearchChange = (e) => setSearch(e.target.value);
@@ -147,18 +176,19 @@ return (
                       id="rangeInput"
                       name="rangeInput"
                       min={0}
-                      max={500}
+                      max={maxPrice}
                       defaultValue={0}
+                      onChange={handlePriceChange} 
                       oninput="amount.value=rangeInput.value"
                     />
                     <output
                       id="amount"
                       name="amount"
                       min-velue={0}
-                      max-value={500}
+                      max-value={maxPrice}
                       htmlFor="rangeInput"
                     >
-                      0
+                      {price}
                     </output>
                   </div>
                 </div>

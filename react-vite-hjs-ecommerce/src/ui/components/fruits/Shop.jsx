@@ -67,7 +67,7 @@ const Shop = () => {
   const handleSearchChange = (e) => setSearch(e.target.value);
   // const handleSearchChange = (e) => setSearch(e.target.value);
   const handleOrderingChange = (e) => setOrdering(e.target.value);
-  const handleCategoryClick = (e) => setCategory(e.target.value);
+  const handleCategoryClick = (categoryId) => setCategory(categoryId);
   // const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
 return (  
@@ -124,8 +124,8 @@ return (
                       { categories && categories.map((categorie,index) =>(
                         <li key={index} >
                           {/* style={{ cursor: 'pointer' }}  // 클릭 가능한 UI */}
-                          <div onClick={() => handleCategoryClick(categorie.name)} style={{ cursor: 'pointer' }}   className="d-flex justify-content-between fruite-name">
-                            <a href="#">
+                          <div onClick={() => handleCategoryClick(categorie.id)} style={{ cursor: 'pointer' }}   className="d-flex justify-content-between fruite-name">
+                            <a href="#" onClick={(e) => e.preventDefault()}>
                               <i className="fas fa-apple-alt me-2" />
                               {categorie.name}
                             </a>

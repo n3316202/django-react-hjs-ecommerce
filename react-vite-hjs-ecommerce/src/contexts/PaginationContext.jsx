@@ -21,7 +21,10 @@ export const PaginationProvider = ({ children }) => {
   //상태값 추가
   const [minPrice, setMinPrice] = useState(null);
   const [maxPrice, setMaxPrice] = useState(null);
-
+  
+  // dev_10_5 페이징 컴포넌트를 위해 추가
+  const [next, setNext] = useState(null);
+  const [prev, setPrev] = useState(null);
   const pageSize = 10;
 
   // {
@@ -56,6 +59,7 @@ export const PaginationProvider = ({ children }) => {
 
       setProducts(response.data.results);
       setTotalCount(response.data.count);
+
     } catch (error) {
       console.error("상품 목록을 불러오는 중 오류 발생:", error);
     }

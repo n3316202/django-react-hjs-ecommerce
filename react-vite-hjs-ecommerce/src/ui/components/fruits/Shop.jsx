@@ -4,7 +4,8 @@ import { usePagination } from '@/contexts/PaginationContext'
 import React, { useEffect, useState } from 'react'
 import Pagination from 'react-js-pagination'
 import { Link } from 'react-router-dom'
-
+ import '@/assets/paging/paging.css';
+import styled from "styled-components";
 // {
 //     "count": 21,
 //     "next": "http://127.0.0.1:8000/api/product-list/?ordering=-price&page=2",
@@ -52,7 +53,7 @@ import { Link } from 'react-router-dom'
 //dev_10_4_Fruit
 const Shop = () => {
 
-  const { products, search, setSearch, ordering, setOrdering, category, setCategory, maxPrice, setMaxPrice, setMinPrice } = usePagination();
+  const { products, search, setSearch, ordering, setOrdering, category, setCategory, maxPrice, setMaxPrice, setMinPrice ,currentPage ,totalCount ,setCurrentPage } = usePagination();
   //console.log(products)
   
   const [categories, setCategories] = useState([]);
@@ -93,15 +94,14 @@ const Shop = () => {
     console.log(value)
     setPrice(value);
     setMinPrice(0);
-    setMaxPrice(value);
-    
+    setMaxPrice(value);    
   };
 
-  const handleSearchChange = (e) => setSearch(e.target.value);
-  // const handleSearchChange = (e) => setSearch(e.target.value);
-  const handleOrderingChange = (e) => setOrdering(e.target.value);
-  const handleCategoryClick = (categoryId) => setCategory(categoryId);
-  // const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
+  const handleSearchChange = (e) => {setSearch(e.target.value); setCurrentPage(1)};
+  const handleOrderingChange = (e) => setOrdering(e.target.value);setCurrentPage(1)
+  const handleCategoryClick = (categoryId) => setCategory(categoryId) ; setCurrentPage(1);
+
+  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 
 return (  
 <>
@@ -409,10 +409,27 @@ return (
                     </div>
                   </div>
 
-                ))}                
+                ))}
+                {/* dev_10_5_Fruit */}
+
+                <div className="col-12">
+                  <div className="pagination d-flex justify-content-center mt-5">
+                        <Pagination
+                          activePage={currentPage}
+                          itemsCountPerPage={10}
+                          totalItemsCount={totalCount}
+                          pageRangeDisplayed={5}
+                          onChange={handlePageChange}
+                          itemClass="rounded"
+                          linkClass="rounded"
+                          prevPageText="‹"
+                          nextPageText="›"
+                        />
+                  </div>
+                </div> 
 
                 {/* 페이징 시작 */}
-                <div className="col-12">
+                {/* <div className="col-12">
                   <div className="pagination d-flex justify-content-center mt-5">
                     <a href="#" className="rounded">
                       «
@@ -439,7 +456,7 @@ return (
                       »
                     </a>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

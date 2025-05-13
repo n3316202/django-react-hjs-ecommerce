@@ -40,7 +40,7 @@ const handleKakaoLogin = () => {
 
 
   window.Kakao.Auth.login({
-    scope: 'profile_nickname, account_email, gender', // 원하는 scope
+    scope: 'profile_nickname, account_email', // 원하는 scope
     success: async function (authObj) {
       const kakaoAccessToken = authObj.access_token
       console.log('Kakao Access Token:', kakaoAccessToken)

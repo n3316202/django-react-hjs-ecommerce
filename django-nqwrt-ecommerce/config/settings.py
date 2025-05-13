@@ -244,6 +244,7 @@ REST_AUTH = {
     'JWT_AUTH_REFRESH_COOKIE' : "refresh_token",
     'JWT_AUTH_COOKIE_USE_CSRF' : True,
     'SESSION_LOGIN' : False,
+    'JWT_AUTH_SAMESITE': 'None',
     'USER_DETAILS_SERIALIZER': "accounts.serializers.UserRestAllAuthSerializer",
     #'USER_DETAILS_SERIALIZER': "accounts.serializers.UserSerializer", #dev_10_2
     'REGISTER_SERIALIZER': "accounts.serializers.CustomRegisterSerializer", #dev_10_2

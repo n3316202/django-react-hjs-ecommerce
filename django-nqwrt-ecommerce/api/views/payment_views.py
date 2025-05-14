@@ -14,8 +14,20 @@ from rest_framework import viewsets
 
 # Create your views here.
 
-
+from drf_spectacular.utils import extend_schema, extend_schema_view
 # dev_9_Fruit
+# dev_10_3_Fruit
+@extend_schema_view(
+    list=extend_schema(
+				tags=['payment_view'], 
+				description='extend_schema_view로 꾸미기'
+		),
+    create=extend_schema(tags=['payment_view'], description="새로운 예시 항목을 생성합니다."),
+    retrieve=extend_schema(tags=['payment_view'], description="단일 예시 항목의 상세 정보를 반환합니다."),
+    update=extend_schema(tags=['payment_view'],description="기존 예시 항목을 업데이트합니다."),
+    partial_update=extend_schema(tags=['payment_view'],description="기존 예시 항목의 일부를 업데이트합니다."),
+    destroy=extend_schema(tags=['extend_schema_view'], description="기존 예시 항목을 삭제합니다.")
+)
 class PaymentViewSet(viewsets.ModelViewSet):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer

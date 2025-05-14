@@ -10,6 +10,7 @@ from api.serializers.product_serializers import ProductSerializer
 from rest_framework.decorators import action
 from django.db.models import Max
 
+from drf_spectacular.utils import extend_schema, extend_schema_view
 # Create your views here.
 
 # dev_10_3_Fruit
@@ -96,12 +97,17 @@ class ProductPagination(PageNumberPagination):
 # 읽기 전용 ViewSet 
 # POST 추가 가능 필요시
 # ModelViewSet
+# dev_10_3_Fruit
 @extend_schema_view(
-		#사용법 method_name = extend_schema()
     list=extend_schema(
-				tags=['extend_schema_view'], 
+				tags=['prouduct-list_view'], 
 				description='extend_schema_view로 꾸미기'
-		)
+		),
+    create=extend_schema(tags=['extend_schema_view'], description="새로운 예시 항목을 생성합니다."),
+    retrieve=extend_schema(description="단일 예시 항목의 상세 정보를 반환합니다."),
+    update=extend_schema(description="기존 예시 항목을 업데이트합니다."),
+    partial_update=extend_schema(description="기존 예시 항목의 일부를 업데이트합니다."),
+    destroy=extend_schema(description="기존 예시 항목을 삭제합니다.")
 )
 class ProductViewSet(viewsets.ReadOnlyModelViewSet):  
     queryset = Product.objects.all()

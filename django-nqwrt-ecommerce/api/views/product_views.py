@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
+
 from store.models import Product
 from api.serializers.product_serializers import ProductSerializer
 # dev_10_4_Fruit
@@ -15,6 +16,7 @@ from drf_spectacular.utils import extend_schema, extend_schema_view
 
 # dev_10_3_Fruit
 from drf_spectacular.utils import extend_schema,OpenApiParameter
+from drf_spectacular.utils import extend_schema, OpenApiExample
 # 함수형 뷰
 @extend_schema(
     methods=['GET'], # 이 데코레이터를 적용할 HTTP 메서드
@@ -46,10 +48,10 @@ def products_api(request):
         return Response(serializer.data)
 
 #dev_10_3_Fruit 스웨거
-from drf_spectacular.utils import extend_schema, OpenApiExample
 
 @extend_schema(
     methods=["DELETE"],
+    tags=["이 값을 기반으로 카테고라이징 됨"],
     examples=[
         OpenApiExample(
             name="삭제 요청 예시",

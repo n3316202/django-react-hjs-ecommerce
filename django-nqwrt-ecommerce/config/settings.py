@@ -338,4 +338,12 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
 
     'SWAGGER_UI_DIST': '//unpkg.com/swagger-ui-dist@3.38.0',
+
+    'CONTACT': {
+        'name': 'John Doe',
+        'email': 'johndoe@example.com',
+        'url': 'https://www.example.com',
+    }
 }
+
+#출처: https://devspoon.tistory.com/256 [devspoon 오픈소스 개발자 번뇌 일지:티스토리]

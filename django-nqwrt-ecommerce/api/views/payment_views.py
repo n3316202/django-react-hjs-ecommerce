@@ -13,16 +13,26 @@ from api.serializers.payment_serializers import PaymentSerializer, ShippingAddre
 from rest_framework import viewsets
 
 # Create your views here.
-
+from drf_spectacular.utils import extend_schema, extend_schema_view
+#https://devspoon.tistory.com/256 [devspoon 오픈소스 개발자 번뇌 일지:티스토리
 
 # dev_9_Fruit
+# dev_10_3_Fruit
+# extend_schema_view를 사용해 개별 액션에 대한 스키마 정보 추가
+@extend_schema_view(
+    list=extend_schema(description="모든 예시 항목의 리스트를 반환합니다."),
+    create=extend_schema(description="새로운 예시 항목을 생성합니다."),
+    retrieve=extend_schema(description="단일 예시 항목의 상세 정보를 반환합니다."),
+    update=extend_schema(description="기존 예시 항목을 업데이트합니다."),
+    partial_update=extend_schema(description="기존 예시 항목의 일부를 업데이트합니다."),
+    destroy=extend_schema(description="기존 예시 항목을 삭제합니다.")
+)
 class PaymentViewSet(viewsets.ModelViewSet):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializer
 
     # create 커스텀 마이징
-    def create(self, request, *args, **kwargs):
-    
+    def create(self, request, *args, **kwargs): 
 
         try:
             user = request.user

@@ -45,7 +45,26 @@ def products_api(request):
         serializer.save()
         return Response(serializer.data)
 
+#dev_10_3_Fruit 스웨거
+from drf_spectacular.utils import extend_schema, OpenApiExample
 
+@extend_schema(
+    methods=["DELETE"],
+    examples=[
+        OpenApiExample(
+            name="삭제 요청 예시",
+            description="해당 ID를 가진 제품을 삭제합니다.",
+            request_only=True,
+            value=None  # DELETE는 일반적으로 바디 없음
+        ),
+        OpenApiExample(
+            name="삭제 성공 응답 예시",
+            description="204 No Content 응답",
+            response_only=True,
+            value=None
+        )
+    ]
+)
 @api_view(["GET", "PUT", "DELETE"])
 def product_api(request, pk):
     product = get_object_or_404(Product, id=pk)

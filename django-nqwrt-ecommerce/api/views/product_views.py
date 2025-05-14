@@ -96,6 +96,13 @@ class ProductPagination(PageNumberPagination):
 # 읽기 전용 ViewSet 
 # POST 추가 가능 필요시
 # ModelViewSet
+@extend_schema_view(
+		#사용법 method_name = extend_schema()
+    list=extend_schema(
+				tags=['extend_schema_view'], 
+				description='extend_schema_view로 꾸미기'
+		)
+)
 class ProductViewSet(viewsets.ReadOnlyModelViewSet):  
     queryset = Product.objects.all()
     serializer_class = ProductSerializer

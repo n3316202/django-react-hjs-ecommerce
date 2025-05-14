@@ -210,10 +210,10 @@ from datetime import timedelta
 
 #Bearer"로 설정되어 있어서 Authorization: Bearer <token> 형태로 사용함.
 SIMPLE_JWT = {
-    # "ACCESS_TOKEN_LIFETIME": timedelta(days=3),#timedelta(minutes=30),
-    # "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=1),
-    "REFRESH_TOKEN_LIFETIME": timedelta(minutes=20),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=3),#timedelta(minutes=30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    #"ACCESS_TOKEN_LIFETIME": timedelta(minutes=1),
+    #"REFRESH_TOKEN_LIFETIME": timedelta(minutes=20),
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
 # http://127.0.0.1:8000/api/auth/users/me/
@@ -237,7 +237,7 @@ AUTHENTICATION_BACKENDS = [
 # dj-rest-auth + JWT 설정
 # 2.2.5버전
 
-REST_USE_JWT = True  # JWT 사용
+#REST_USE_JWT = True  # JWT 사용
 
 # 3.0.0버전 이상
 REST_AUTH = {
@@ -246,7 +246,8 @@ REST_AUTH = {
     'JWT_AUTH_REFRESH_COOKIE' : "refresh_token",
     'JWT_AUTH_COOKIE_USE_CSRF' : False,
     'SESSION_LOGIN' : False,
-    'JWT_AUTH_SAMESITE': 'None',
+    #'JWT_AUTH_SECURE': False,
+    #'JWT_AUTH_SAMESITE': 'None',
     #'USER_DETAILS_SERIALIZER': "accounts.serializers.UserRestAllAuthSerializer",
     'USER_DETAILS_SERIALIZER': "accounts.serializers.UserSerializer", #dev_10_2
     'REGISTER_SERIALIZER': "accounts.serializers.CustomRegisterSerializer", #dev_10_2

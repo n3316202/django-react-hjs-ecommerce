@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { getCurrentUser, loginUser } from "../api/AuthApi";
+import axios from "axios";
 
 const AuthContext = createContext();
 
@@ -8,6 +9,28 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [accessToken, setAccessToken] = useState(localStorage.getItem("access"));
+
+  //dev_10_2_소셜로그인
+  //새로고침 시 로그인 상태 복구 로직
+  // useEffect(()=>{
+    
+  //   const restoreSession = async () => {
+  //     try {
+  //       const respose =  await axios.post('/dj-rest-auth/token/refresh/', {}, { withCredentials: true });
+
+  //       console.log("새로고침 시 리스판스")
+  //       console.log(respose)
+
+  //     } catch (error) {
+  //       localStorage.removeItem('access');
+  //       setUser(null);
+  //       console.log(error)
+  //     }
+  //   }
+    
+  //   restoreSession()
+
+  // },[])
 
   useEffect(() => {
     if (accessToken) {

@@ -119,6 +119,8 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     
 
     #ViewSet 에서 URL 추가
+    # Product.objects.aggregate(Max('price'))
+    # 이 쿼리의 반환값은 딕셔너리:
     @action(detail=False, methods=['get'], url_path='max-price')
     def max_price(self, request):
         max_price = Product.objects.aggregate(Max('price'))['price__max'] or 0

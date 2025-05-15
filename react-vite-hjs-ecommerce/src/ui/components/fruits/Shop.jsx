@@ -98,8 +98,8 @@ const Shop = () => {
   };
 
   const handleSearchChange = (e) => {setSearch(e.target.value); setCurrentPage(1)};
-  const handleOrderingChange = (e) => setOrdering(e.target.value);setCurrentPage(1)
-  const handleCategoryClick = (categoryId) => setCategory(categoryId);setCurrentPage(1);
+  const handleOrderingChange = (e) => {setOrdering(e.target.value);setCurrentPage(1)}
+  const handleCategoryClick = (categoryId) => {setCategory(categoryId);setCurrentPage(1)};
 
   const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
 

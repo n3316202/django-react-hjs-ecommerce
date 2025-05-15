@@ -96,14 +96,22 @@ const Shop = () => {
     setMaxPrice(value);
 
     //슬라이더 값 변경시 카테고리는 초기화
+    setCurrentPage(1)
     setCategory("")
   };
 
-  const handleSearchChange = (e) => {setSearch(e.target.value); setCurrentPage(1)};
-  const handleOrderingChange = (e) => {setOrdering(e.target.value);setCurrentPage(1)}
+  const handleSearchChange = (e) => {setSearch(e.target.value); setCurrentPage(1);setCategory("")};
+  const handleOrderingChange = (e) => {setOrdering(e.target.value);setCurrentPage(1);setCategory("")}
   const handleCategoryClick = (categoryId) => {setCategory(categoryId);setCurrentPage(1)};
-
-  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
+  
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);    // 스크롤 맨 위로 이동
+    
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+    });
+  }
 
 return (  
 <>

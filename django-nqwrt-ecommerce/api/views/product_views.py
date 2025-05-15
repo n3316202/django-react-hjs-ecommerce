@@ -48,25 +48,6 @@ def products_api(request):
         return Response(serializer.data)
 
 #dev_10_3_Fruit 스웨거
-
-@extend_schema(
-    methods=["DELETE"],
-    tags=["이 값을 기반으로 카테고라이징 됨"],
-    examples=[
-        OpenApiExample(
-            name="삭제 요청 예시",
-            description="해당 ID를 가진 제품을 삭제합니다.",
-            request_only=True,
-            value=None  # DELETE는 일반적으로 바디 없음
-        ),
-        OpenApiExample(
-            name="삭제 성공 응답 예시",
-            description="204 No Content 응답",
-            response_only=True,
-            value=None
-        )
-    ]
-)
 @api_view(["GET", "PUT", "DELETE"])
 def product_api(request, pk):
     product = get_object_or_404(Product, id=pk)
@@ -152,7 +133,17 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     ordering = ['id']  # 기본 정렬
     
 
+    #https://chatgpt.com/c/68245678-d870-8007-b995-489d970d4198
+    #SELECT MAX(price) AS price__max FROM produc
+    #{'price__max': 999.99}
+    #result = Product.objects.aggregate(Max('price'))
+    #max_price = result['price__max']
+    #만약 상품이 하나도 없으면 None이 됩니다:
+    #{'price__max': None}
+
     #ViewSet 에서 URL 추가
+    # detail=True	/api/resource/<pk>/custom/	특정 객체에 대해 작동 (PK 필요)
+    # detail=False	/api/resource/custom/	전체 또는 리스트 대상 (PK 불필요)
     @action(detail=False, methods=['get'], url_path='max-price')
     def max_price(self, request):
         max_price = Product.objects.aggregate(Max('price'))['price__max'] or 0

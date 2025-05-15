@@ -4,7 +4,7 @@ import { usePagination } from '@/contexts/PaginationContext'
 import React, { useEffect, useState } from 'react'
 import Pagination from 'react-js-pagination'
 import { Link } from 'react-router-dom'
- import '@/assets/paging/paging.css';
+import '@/assets/paging/paging.css';
 import styled from "styled-components";
 // {
 //     "count": 21,

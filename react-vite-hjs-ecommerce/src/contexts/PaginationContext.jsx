@@ -67,7 +67,7 @@ export const PaginationProvider = ({ children }) => {
 
   // 조건이 변경될 때마다 API 다시 호출
   useEffect(() => {
-    fetchProducts();
+    fetchProducts();    
   }, [currentPage, search, ordering, category,minPrice, maxPrice]); 
 
   // Context 값 제공

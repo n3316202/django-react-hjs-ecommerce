@@ -57,7 +57,6 @@ const Shop = () => {
   //console.log(products)
   
   const [categories, setCategories] = useState([]);
-
   const [limitPrice, setLimitPrice] = useState(0);
   const [price, setPrice] = useState(0);
 
@@ -94,7 +93,10 @@ const Shop = () => {
     console.log(value)
     setPrice(value);
     setMinPrice(0);
-    setMaxPrice(value);    
+    setMaxPrice(value);
+
+    //슬라이더 값 변경시 카테고리는 초기화
+    setCategory("")
   };
 
   const handleSearchChange = (e) => {setSearch(e.target.value); setCurrentPage(1)};

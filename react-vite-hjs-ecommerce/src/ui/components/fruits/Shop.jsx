@@ -374,7 +374,7 @@ return (
                 { products && products.map((product) => (
                    <div  key={product.id} className="col-md-6 col-lg-4 col-xl-4">
                     <div className="rounded position-relative fruite-item">
-                      <div className="fruite-img fruite-img ratio ratio-4x3 overflow-hidden rounded-top">
+                      <div className="fruite-img ratio ratio-4x3 overflow-hidden rounded-top">
                         <img
                           src={`${product.image}`}
                           className="img-fluid w-100 rounded-top"

@@ -321,8 +321,8 @@ SOCIALACCOUNT_LOGIN_ON_GET = True #브라우저에서 단순히 링크 클릭이
 SPECTACULAR_SETTINGS = {
     # General schema metadata. Refer to spec for valid inputs
     # https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.3.md#openapi-object
-    'TITLE': 'drf-spectacular API Document',
-    'DESCRIPTION': 'drf-specatular 를 사용해서 만든 API 문서입니다.',
+    'TITLE': '쇼핑몰 API Document',
+    'DESCRIPTION': '쇼핑몰 프로젝트를 drf-specatular 를 사용해서 만든 API 문서입니다.',
     'SWAGGER_UI_SETTINGS': {
         'dom_id': '#swagger-ui',
         'layout': 'BaseLayout', 
@@ -332,7 +332,7 @@ SPECTACULAR_SETTINGS = {
     },
    
     'LICENSE': {
-        'name': 'MIT License',
+        'name': 'all rights is reserved by 홍길동 commany',
     },
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
@@ -340,8 +340,8 @@ SPECTACULAR_SETTINGS = {
     'SWAGGER_UI_DIST': '//unpkg.com/swagger-ui-dist@3.38.0',
 
     'CONTACT': {
-        'name': 'John Doe',
-        'email': 'johndoe@example.com',
+        'name': '홍길동',
+        'email': 'admin@admin.com',
         'url': 'https://www.example.com',
     }
 }

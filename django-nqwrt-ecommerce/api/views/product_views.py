@@ -13,6 +13,7 @@ from api.serializers.product_serializers import ProductSerializer
 from drf_spectacular.utils import extend_schema,OpenApiParameter
 # 함수형 뷰
 @extend_schema(
+    tags=['추가 API 설명'],    
     methods=['GET'], # 이 데코레이터를 적용할 HTTP 메서드
     summary='상품들을 조회', # API 요약 설명
     description='상품의 리스트를 조회하는 API입니다.', # API 상세 설명
@@ -41,7 +42,13 @@ def products_api(request):
         serializer.save()
         return Response(serializer.data)
 
-
+@extend_schema(
+    tags=['추가 API 설명'],    
+    methods=['PUT'], # 이 데코레이터를 적용할 HTTP 메서드
+    summary='상품을 수정', # API 요약 설명
+    description='상품을 수정하는  API입니다.', # API 상세 설명
+    responses={200: ProductSerializer(many=False)}, # 응답 스키마
+)
 @api_view(["GET", "PUT", "DELETE"])
 def product_api(request, pk):
     product = get_object_or_404(Product, id=pk)

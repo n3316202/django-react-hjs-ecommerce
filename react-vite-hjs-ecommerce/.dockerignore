@@ -1,0 +1,28 @@
+# node dependencies
+node_modules
+
+# build artifacts
+build
+dist
+
+# test logs
+coverage
+*.log
+
+# environment files
+.env
+.env.*
+
+# git files
+.git
+.gitignore
+
+# docker files
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# OS / editor / IDE
+.DS_Store
+.vscode
+.idea
